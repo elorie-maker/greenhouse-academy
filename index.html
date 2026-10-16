@@ -1,0 +1,937 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Ylopo Greenhouse Academy: where new leaders grow. A 12-week leadership program built on the 6 Critical Practices.">
+<title>Ylopo Greenhouse Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+html{color-scheme:light}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}
+</style>
+<style>
+/* Layout: a numbered practice rail (the 6 practices are a real sequence) beside one module at a time; an XP/level strip on top makes progress feel like a game. */
+:root{
+  /* Ylopo brand: lime #7BC109 + slate grey #929496 (sampled from the logo) */
+  --bg:#F5F6F4; --surface:#FFFFFF; --ink:#24272B; --muted:#5F6368; --line:#DEE1DC;
+  --accent:#3F7A00; --accent-soft:#EEF6E0; --gold:#7BC109; --gold-soft:#EFF0F1; --good:#2E8540; --good-soft:#E4F3E6; --bad:#C2413A; --bad-soft:#FBE9E7;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141619; --surface:#1D2024; --ink:#E9EBEC; --muted:#A4A8AC; --line:#30343A;
+  --accent:#9BDB3A; --accent-soft:#25321A; --gold:#8FD61F; --gold-soft:#272A2E; --good:#5FCB7A; --good-soft:#18301E; --bad:#F08A80; --bad-soft:#3D1F1D; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141619; --surface:#1D2024; --ink:#E9EBEC; --muted:#A4A8AC; --line:#30343A;
+  --accent:#9BDB3A; --accent-soft:#25321A; --gold:#8FD61F; --gold-soft:#272A2E; --good:#5FCB7A; --good-soft:#18301E; --bad:#F08A80; --bad-soft:#3D1F1D; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15.5px;line-height:1.6}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding-block:24px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.logo{display:block;height:34px;width:auto;margin-bottom:12px}
+.tagline{margin:6px 0 0;font-family:var(--display);font-size:clamp(17px,2vw,21px);font-weight:500;color:var(--accent)}
+header.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;padding-bottom:20px;border-bottom:1px solid var(--line);margin-bottom:24px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.15;margin:0}
+h1{font-size:clamp(28px,4.4vw,42px);font-weight:800;letter-spacing:-.01em}
+h2{font-size:clamp(24px,3.2vw,32px);font-weight:700}
+h3{font-size:18px;font-weight:700}
+.xp{min-width:0;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px;width:min(360px,100%)}
+.xp .lvl{grid-row:span 2;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:18px;background:var(--accent-soft);color:var(--accent)}
+.xp .name{font-weight:600;font-size:14px;display:flex;justify-content:space-between;gap:8px}
+.xp .name span{font-family:var(--mono);font-weight:500;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.bar{height:8px;border-radius:99px;background:var(--line);overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--gold);width:0;transition:width .4s}
+.layout{display:grid;grid-template-columns:260px minmax(0,1fr);gap:28px;align-items:start}
+nav.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);display:flex;flex-direction:column;gap:4px}
+.tab{all:unset;cursor:pointer;display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:center;padding:10px 12px;border-radius:10px;color:var(--ink)}
+.tab:hover{background:var(--surface)}
+.tab[aria-selected="true"]{background:var(--surface);box-shadow:inset 0 0 0 1px var(--line)}
+.tab .num{font-family:var(--mono);font-size:13px;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--line);color:var(--muted)}
+.tab[aria-selected="true"] .num{border-color:var(--accent);color:var(--accent)}
+.tab.done .num{background:var(--gold);border-color:var(--gold);color:#1A1D10}
+.tab .lbl{font-size:14px;line-height:1.3;font-weight:500}
+.tab .sub{display:block;font-size:12px;color:var(--muted);font-weight:400}
+main{min-width:0}
+.panel{display:flex;flex-direction:column;gap:26px}
+.hero{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:26px}
+.hero p{max-width:70ch;color:var(--muted);margin:10px 0 0}
+.shift{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:stretch;margin-top:18px}
+.shift div{padding:14px 16px;border-radius:10px;font-size:14.5px}
+.shift .from{background:var(--bg);color:var(--muted)}
+.shift .to{background:var(--accent-soft);color:var(--ink);font-weight:500}
+.shift .arrow{align-self:center;font-family:var(--mono);color:var(--accent)}
+.shift b{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;margin-bottom:4px;color:var(--muted)}
+section.block{display:flex;flex-direction:column;gap:12px}
+.phase{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.chip{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:99px;background:var(--gold-soft);color:var(--ink)}
+.chip.xpc{background:var(--accent-soft)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;min-width:0}
+.card h4{margin:0 0 6px;font-size:15px;font-family:var(--body);font-weight:600}
+.card p,.card ul,.card ol{margin:0;font-size:14.5px;color:var(--muted)}
+.card ul,.card ol{padding-left:20px}
+.card li+li{margin-top:4px}
+.tool{border-left:3px solid var(--accent);border-radius:0 12px 12px 0}
+.story{background:var(--bg);border:1px dashed var(--line)}
+.story h4::before{content:"From the book · ";font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
+blockquote{margin:0;padding:16px 20px;border-radius:12px;background:var(--accent-soft);font-family:var(--display);font-size:19px;line-height:1.35}
+blockquote cite{display:block;margin-top:6px;font-family:var(--body);font-size:13px;font-style:normal;color:var(--muted)}
+.quotes{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.qs{display:flex;flex-wrap:wrap;gap:8px}
+.qs span{background:var(--surface);border:1px solid var(--line);border-radius:99px;padding:6px 12px;font-size:14px}
+.checks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.checks label{display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;cursor:pointer}
+.checks input{margin-top:4px;accent-color:var(--good);width:16px;height:16px;flex:none}
+.checks .meta{font-family:var(--mono);font-size:12px;color:var(--muted);margin-left:auto;white-space:nowrap;padding-left:8px}
+.checks label:has(input:checked) span.t{text-decoration:line-through;color:var(--muted)}
+.agenda{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.agenda .row{display:grid;grid-template-columns:72px 1fr;gap:14px;padding:12px 16px;border-top:1px solid var(--line)}
+.agenda .row:first-child{border-top:0}
+.agenda .min{font-family:var(--mono);font-size:13px;color:var(--accent);font-variant-numeric:tabular-nums}
+.agenda .row p{margin:2px 0 0;color:var(--muted);font-size:14px}
+.agenda .row.game{background:var(--gold-soft)}
+.scenario{background:var(--gold-soft);border-radius:12px;padding:18px 20px}
+.scenario p{margin:6px 0 0}
+.self{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:6px 16px}
+.self .q{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.self .q:first-child{border-top:0}
+.self .q span{flex:1 1 280px;font-size:14.5px}
+.scale{display:flex;gap:6px}
+.scale input{position:absolute;opacity:0;pointer-events:none}
+.scale label{width:32px;height:32px;display:grid;place-items:center;border-radius:8px;border:1px solid var(--line);font-family:var(--mono);font-size:13px;cursor:pointer;color:var(--muted)}
+.scale input:checked+label{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.scale input:focus-visible+label{outline:2px solid var(--accent);outline-offset:2px}
+.scorebox{font-size:14px;color:var(--muted);padding:10px 0 8px;border-top:1px solid var(--line)}
+textarea{width:100%;min-height:92px;font:inherit;font-size:14.5px;padding:12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);resize:vertical}
+.refl{display:flex;flex-direction:column;gap:6px}
+.refl label{font-weight:500;font-size:14.5px}
+.note{font-size:13px;color:var(--muted)}
+.res{display:flex;flex-wrap:wrap;gap:8px}
+.res a{font-size:14px;text-decoration:none;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--surface)}
+.res a:hover{border-color:var(--accent)}
+.nextprev{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:8px}
+.btn{all:unset;cursor:pointer;font-weight:500;font-size:14px;padding:10px 16px;border-radius:9px;background:var(--accent);color:var(--surface);text-align:center}
+.btn.ghost{background:transparent;color:var(--accent);box-shadow:inset 0 0 0 1px var(--line)}
+.btn.sm{padding:7px 12px;font-size:13.5px}
+.btn:disabled,.btn[aria-disabled="true"]{opacity:.45;cursor:default}
+/* games */
+.game{background:var(--surface);border:1.5px solid var(--gold);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:14px}
+.game .ghead{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;align-items:baseline}
+.game .ghead p{margin:4px 0 0;color:var(--muted);font-size:14.5px;max-width:64ch}
+.best{font-family:var(--mono);font-size:12.5px;color:var(--accent);white-space:nowrap}
+.sortitem{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:12px 14px;border:1px solid var(--line);border-radius:10px}
+.sortitem .stmt{flex:1 1 260px;font-size:14.5px}
+.sortitem .opts{display:flex;flex-wrap:wrap;gap:6px}
+.opt{all:unset;cursor:pointer;font-size:13px;padding:6px 10px;border-radius:8px;box-shadow:inset 0 0 0 1px var(--line);color:var(--ink)}
+.opt:hover{box-shadow:inset 0 0 0 1px var(--accent)}
+.sortitem.ok{background:var(--good-soft);border-color:var(--good)}
+.sortitem.no{background:var(--bad-soft);border-color:var(--bad)}
+.verdict{font-size:13.5px;font-weight:500}
+.ok .verdict{color:var(--good)} .no .verdict{color:var(--bad)}
+.round{display:flex;flex-direction:column;gap:10px}
+.round .prompt{font-size:15px;font-weight:500}
+.round .ctx{font-size:14px;color:var(--muted);margin:0}
+.choice{all:unset;cursor:pointer;display:block;padding:12px 14px;border-radius:10px;border:1px solid var(--line);font-size:14.5px}
+.choice:hover:not([aria-disabled="true"]){border-color:var(--accent)}
+.choice.ok{background:var(--good-soft);border-color:var(--good)}
+.choice.no{background:var(--bad-soft);border-color:var(--bad)}
+.choice[aria-disabled="true"]{cursor:default}
+.explain{font-size:14px;padding:10px 14px;border-radius:10px;background:var(--bg);margin:0}
+.progressdots{display:flex;gap:6px}
+.progressdots i{width:22px;height:5px;border-radius:9px;background:var(--line)}
+.progressdots i.on{background:var(--gold)}
+.ordered{display:flex;flex-direction:column;gap:6px;counter-reset:s}
+.ordered div{padding:10px 14px;border-radius:10px;background:var(--good-soft);border:1px solid var(--good);font-size:14.5px;counter-increment:s}
+.ordered div::before{content:counter(s) ". ";font-family:var(--mono);color:var(--good)}
+.pool{display:flex;flex-wrap:wrap;gap:8px}
+.pool .opt{padding:10px 12px;font-size:14px}
+.pool .opt.shake{animation:shake .35s;box-shadow:inset 0 0 0 1.5px var(--bad)}
+@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.result{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:12px 14px;border-radius:10px;background:var(--gold-soft)}
+.result strong{font-family:var(--display);font-size:20px}
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.badge{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;padding:16px 10px;border-radius:12px;background:var(--surface);border:1px solid var(--line)}
+button.badge{font:inherit;color:inherit;cursor:pointer}
+button.badge:hover{border-color:var(--accent)}
+.badge svg{width:56px;height:56px}
+.badge .bn{font-weight:600;font-size:14px;line-height:1.3}
+.badge .bs{font-size:12px;color:var(--muted)}
+.badge.locked{opacity:.5}
+.badge.locked svg{filter:grayscale(1)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.stat strong{display:block;font-family:var(--display);font-size:30px;color:var(--accent);line-height:1.1}
+.stat p{margin:6px 0 0;font-size:14px;color:var(--muted)}
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.flow .card{border-top:3px solid var(--gold)}
+.levels{overflow-x:auto}
+.levels table,.timeline table{border-collapse:collapse;width:100%;min-width:520px;font-size:14px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.levels th,.levels td,.timeline th,.timeline td{text-align:left;padding:10px 14px;border-top:1px solid var(--line)}
+.levels th,.timeline th{font-family:var(--mono);font-weight:500;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-top:0}
+.levels td:first-child,.timeline td:first-child{font-family:var(--mono);color:var(--accent);white-space:nowrap;font-variant-numeric:tabular-nums}
+.levels tr.cur td{background:var(--gold-soft)}
+.timeline{overflow-x:auto}
+/* video skits: a self-contained "screening room" look, same in both themes */
+.vid{display:flex;flex-direction:column;gap:10px}
+.stage{position:relative;aspect-ratio:16/9;width:100%;max-width:100%;border-radius:14px;overflow:hidden;background:#2E3236;transition:background .7s;container-type:inline-size;user-select:none}
+.stage::before{content:"";position:absolute;inset:auto 0 0 0;height:20%;background:rgba(0,0,0,.22)}
+.stage .loc{position:absolute;top:4%;left:3%;font-family:var(--mono);font-size:clamp(10px,2.1cqw,14px);letter-spacing:.06em;text-transform:uppercase;color:#fff;background:rgba(0,0,0,.35);padding:4px 10px;border-radius:99px}
+.stage .ttl{position:absolute;top:4%;right:3%;font-family:var(--display);font-weight:800;font-size:clamp(10px,2.2cqw,15px);color:rgba(255,255,255,.75)}
+.actor{position:absolute;bottom:6%;width:17%;transform:translateX(-50%);transition:left .8s cubic-bezier(.3,1.3,.5,1)}
+.actor svg{width:100%;display:block;overflow:visible}
+.actor .nm{display:block;text-align:center;font-family:var(--mono);font-size:clamp(8px,1.7cqw,12px);color:#fff;opacity:.85;margin-top:2px}
+.actor.talk svg.body{animation:bob .42s ease-in-out infinite alternate}
+.actor.talk .mouth{animation:yap .18s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center}
+.actor .prop{position:absolute;width:46%;right:-30%;bottom:26%;animation:pop .35s ease-out}
+.antenna{animation:blink 1.2s steps(2) infinite}
+@keyframes bob{to{transform:translateY(-3%)}}
+@keyframes yap{to{transform:scaleY(.35)}}
+@keyframes pop{from{transform:scale(.3);opacity:0}}
+@keyframes blink{50%{opacity:.35}}
+.bubble{position:absolute;bottom:60%;transform:translateX(-50%);max-width:52%;background:#fff;color:#151B2B;border-radius:14px;padding:.7em 1em;font-size:clamp(11px,2.5cqw,18px);line-height:1.35;font-weight:500;box-shadow:0 6px 18px rgba(0,0,0,.25);transition:left .5s;animation:pop .25s ease-out}
+.bubble.bot{background:#0E1A36;color:#B6F05A;font-family:var(--mono);font-weight:500;border:1.5px solid #B6F05A}
+.bubble b{display:block;font-family:var(--mono);font-size:.7em;letter-spacing:.06em;text-transform:uppercase;opacity:.6;margin-bottom:2px}
+.cover,.wrapup{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:6%;background:rgba(10,14,30,.72);color:#fff}
+.stage [hidden]{display:none!important}
+.cover h4,.wrapup h4{margin:0;font-family:var(--display);font-size:clamp(18px,4.6cqw,34px);line-height:1.1}
+.cover p,.wrapup p{margin:.6em auto 0;font-size:clamp(11px,2.3cqw,16px);opacity:.85;max-width:44ch}
+.bigplay{all:unset;cursor:pointer;margin-top:1em;display:inline-flex;align-items:center;gap:.5em;background:#7BC109;color:#1A1D10;font-weight:700;padding:.65em 1.2em;border-radius:99px;font-size:clamp(12px,2.4cqw,16px)}
+.bigplay:focus-visible{outline:3px solid #fff}
+.controls{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.segs{flex:1 1 200px;display:flex;gap:3px;min-width:0}
+.segs button{all:unset;cursor:pointer;flex:1;height:8px;border-radius:9px;background:var(--line)}
+.segs button.on{background:var(--gold)}
+.segs button.cur{background:var(--accent)}
+.segs button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.caption{margin:0;font-size:14.5px;color:var(--muted);min-height:1.6em}
+.caption b{color:var(--ink)}
+.toast{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-weight:600;font-size:14px;transform:translateY(20px);opacity:0;transition:all .25s;pointer-events:none;z-index:9}
+.toast.show{transform:none;opacity:1}
+footer{margin-top:40px;font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px}
+@media (max-width:860px){
+  .layout{grid-template-columns:1fr}
+  nav.rail{position:static;flex-direction:row;overflow-x:auto;gap:6px;padding-bottom:4px}
+  .tab{grid-template-columns:30px auto;flex:none}
+  .tab .sub{display:none}
+  .flow{grid-template-columns:1fr 1fr}
+}
+@media (max-width:520px){.shift{grid-template-columns:1fr}.shift .arrow{transform:rotate(90deg);justify-self:center}.hero,.game{padding:18px}.flow{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <img class="logo" src="data:image/png;base64,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" alt="Ylopo" width="124" height="34">
+      <div class="eyebrow">Leadership Development · Managers &amp; Team Leaders</div>
+      <h1>Greenhouse Academy</h1>
+      <p class="tagline">Where new leaders grow</p>
+    </div>
+    <div class="xp" aria-live="polite">
+      <div class="lvl" id="lvlNum">1</div>
+      <div class="name"><b id="lvlName">Seed</b><span id="xpTxt">0 XP</span></div>
+      <div class="bar" aria-hidden="true"><i id="xpBar"></i></div>
+    </div>
+  </header>
+  <div class="layout">
+    <nav class="rail" id="rail" role="tablist" aria-label="Modules"></nav>
+    <main id="main"></main>
+  </div>
+  <footer>Built on <em>Everyone Deserves a Great Manager: The 6 Critical Practices for Leading a Team</em> by Scott Jeffrey Miller, Todd Davis and Victoria Roos Olsson (FranklinCovey / Simon &amp; Schuster, 2019). Stories and tools are paraphrased from the book for training use; each manager should read the full book alongside this program. Your XP, checkmarks, game scores and notes are saved in this browser only.</footer>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const BOOK="https://everyonedeservesagreatmanager.com/";
+const FC="https://mp.franklincovey.com/solutions/6-critical-practices/";
+const LEVELS=[[0,"Seed"],[150,"Sprout"],[400,"Seedling"],[700,"Sapling"],[1000,"In Full Bloom"],[1300,"Master Gardener"]];
+
+const MODULES=[
+{
+  id:"m1",n:1,title:"Develop a Leader's Mindset",short:"Your people are your results",badge:"Deep Roots",
+  why:"Most of us were promoted at Ylopo because we were great at the work: closing tickets, launching campaigns, coaching agent partners, shipping features. The book points out that people skills drive most of a first-level leader's success, yet people are usually promoted for technical skill. Leading means your success is now measured by how well your team performs.",
+  from:"I achieve results on my own.",to:"I achieve results with and through others. My people are my results.",
+  concepts:[
+    ["Your people are your results","You now own the results of everyone on your team. Your own deliverables still matter, but making sure your direct reports succeed and grow comes first."],
+    ["Let go of past success","The skills and trophies that got you promoted are no longer the job. Jumping in to do the work yourself robs your team of learning and makes you the bottleneck."],
+    ["See → Do → Get","Stephen R. Covey's idea that your paradigm (how you see) drives your behavior (what you do), which drives your results (what you get). To change results, start with how you see your role."],
+    ["Coach, don't rescue","When someone hits a problem, ask questions that help them solve it. Rescuing feels helpful in the moment but keeps them dependent on you."],
+    ["Celebrate from the background","Your best days are now the days someone on your team shines, even when nobody notices your part in it."],
+    ["Build future leaders","The goal is to grow people who could eventually lead others. Your legacy is the careers you help build."]
+  ],
+  tools:[
+    ["Hold a funeral for your old job","The book suggests a symbolic ritual: box up the awards, certificates and trophies from your individual-contributor days. It marks the shift and makes it easier to stop competing with your own team.",null],
+    ["The rescue check","Before you step in, ask yourself three questions.",["Is this truly urgent, or just uncomfortable?","What will they learn if I fix it?","What question could I ask instead of giving the answer?"]],
+    ["Coaching questions to keep handy","Use these when someone brings you a problem.",["What have you tried so far?","What options do you see?","What would you do if I weren't here?","What support do you need from me?"]]
+  ],
+  stories:[
+    ["Carolyn, the rescuing sales manager","Carolyn was a top salesperson who became a sales manager. She kept stepping in during client meetings to save deals. Her team stopped learning from their own mistakes, and she couldn't scale beyond what she did herself."],
+    ["\"I want my team to earn President's Club\"","Todd Davis describes a hospitality executive with a wall of sales awards. Once he became a leader, his goal changed: he wanted his team to earn the awards instead."],
+    ["Scott's three-week \"un-promotion\"","Scott Miller shares that he was moved out of his first leadership role after just three weeks because he hadn't yet made the shift from doing to leading."]
+  ],
+  quotes:[["Your people are your results.","The book's core idea for Practice 1"]],
+  prep:[["Read the Introduction and Practice 1 chapter","25 min"],["Complete the self-check and the Mindset Sorter game","10 min"],["List three things you still do that a team member could own","10 min"]],
+  agenda:[
+    ["0–10","Check-in","Each participant shares one moment this month when they jumped in and did the work instead of leading."],
+    ["10–20","Teach-back","Facilitator walks through the mindset shift, See → Do → Get, and the Carolyn story. Ask: which old habit is hardest to let go of?"],
+    ["20–32","Live game: Rescue or Coach?","Facilitator reads 8 quick Ylopo situations. Everyone holds up R (rescue) or C (coach) within 5 seconds, then one person defends their pick. 1 point for each pick you can defend; the facilitator awards a bonus point for the best coaching question.",true],
+    ["32–48","Scenario work","Pairs work through the Ylopo scenario below and agree on a leader's-mindset response."],
+    ["48–55","Funeral for your old job","Each person names one trophy, habit or identity from their old role they are ready to retire."],
+    ["55–60","Commit","Share your hand-off commitment out loud."]
+  ],
+  scenario:["The escalation reflex","A high-value agent partner escalates a problem with their lead flow. You know exactly how to fix it because you did this job for two years. Your team member, three months in, owns the account. It's 5 pm and you could resolve it in 20 minutes yourself.","What would you do tonight? What will you do differently next time so you're not the default fixer?"],
+  apply:["Hand off one recurring task you've been holding onto, with clear expectations","Use a coaching question instead of an answer at least three times this week","Publicly recognize a team member's win without mentioning your part"],
+  self:["I spend more of my week helping my team succeed than doing individual work.","I resist jumping in to fix problems my team could solve.","I can name one development goal for each person on my team."],
+  reflect:["Which part of your old role are you most tempted to hold onto, and why?","What will your team be able to do in six months that they can't do today?"],
+  games:[
+    {id:"g1",type:"sort",title:"Mindset Sorter",intro:"Sort each statement: is it an individual-contributor mindset or a leader's mindset?",buckets:["Individual contributor","Leader"],items:[
+      ["\"I'll just do it myself. It's faster.\"",0],["\"My best day is when someone on my team gets the win.\"",1],["\"I'll jump on the client call and save the deal.\"",0],["\"What have you tried so far, and what would you do next?\"",1],["\"My awards prove I'm good at this job.\"",0],["\"I measure my success by my team's results.\"",1],["\"I redo work that isn't how I'd have done it.\"",0],["\"I block time each week for each person's growth.\"",1]]}
+  ],
+  quiz:[
+    ["According to the book, what are a leader's results?",["The leader's own deliverables","The leader's people","The leader's team budget"],1,"\"Your people are your results.\" Your success is now measured through your team."],
+    ["What went wrong when Carolyn kept saving deals in client meetings?",["She lost the deals anyway","Her team stopped learning from their own mistakes","Her boss thought she was overpaid"],1,"Rescuing kept her team dependent and stopped them from building their own skills."],
+    ["What is the point of holding a \"funeral for your old job\"?",["To mark the shift and let go of your individual-contributor identity","To throw out old files","To celebrate your promotion with the team"],0,"It's a symbolic way to stop leaning on past success and commit to the new role."]
+  ],
+  res:[["Practice 1 at FranklinCovey",FC+"practice-1-develop-a-leaders-mindset/"]]
+},
+{
+  id:"m2",n:2,title:"Hold Regular 1-on-1s",short:"Their meeting, not yours",badge:"Steady Waterer",
+  why:"On distributed teams across time zones, the 1-on-1 is often the only protected time a team member gets with their leader. Scott Miller's point is blunt: people quit their bosses, not their jobs. Regular 1-on-1s that go beyond status updates are where you build the trust that keeps good people at Ylopo.",
+  from:"I hold 1-on-1s to monitor people's progress.",to:"I hold regular 1-on-1s to help people get engaged and stay engaged.",
+  concepts:[
+    ["It's their meeting","The team member sets the agenda and leads the conversation. They should talk about 80% of the time; you talk about 20%."],
+    ["Go beyond status","Status updates belong in a dashboard or team meeting. Use 1-on-1s for engagement, coaching, development and the person behind the work."],
+    ["Engagement is a choice","People above the line do the work because they want to; below it, because they have to. You can't force engagement, but you create the conditions for it."],
+    ["Regular beats perfect","Same time each week, at least 30 minutes. Reschedule rather than cancel. Repeated cancellations tell people where they rank."],
+    ["Listen to understand","Practice empathic listening: listen to understand, not to reply. Resist the urge to fix; help them find their own answer."],
+    ["Close the loop","End each 1-on-1 by reviewing commitments on both sides: what they committed to and did, and what you committed to and did."]
+  ],
+  tools:[
+    ["The 1-on-1 setup","How the book recommends running them.",["Recurring, same time each week","At least 30 minutes","Both people prepare an agenda; the team member leads","They talk ~80% of the time","End by reviewing both people's commitments"]],
+    ["Victoria's 10-minute warm-up","Before each 1-on-1, take 10 minutes to get fully present.",["Review notes from your last 1-on-1","Turn off email and Slack notifications","Silence your phone"]],
+    ["Questions that open things up","Use one or two, not all of them.",["What's on your mind this week?","What's your biggest challenge right now?","What do you think is keeping you from reaching your full potential?","What's one thing I could do to help you?","What would you like to be doing a year from now?"]]
+  ],
+  stories:[
+    ["Joanna, the remote project manager","Joanna was a high performer working remotely. Her 1-on-1s covered only project status, and she eventually resigned. Under a later leader who asked about her experience and career interests, she thrived."],
+    ["Victoria: present, but not present","During a stressful period, Victoria kept every 1-on-1 on the calendar but wasn't mentally there. Her team told her so, and she changed how she prepared for and showed up to them."]
+  ],
+  quotes:[["The deepest need of the human heart is to feel understood.","Stephen R. Covey, cited in the book"],["People quit their bosses, not their jobs.","Scott Miller"]],
+  prep:[["Read the Practice 2 chapter","25 min"],["Play the 1-on-1 Simulator","10 min"],["List each direct report and when you last had a real 1-on-1 with them","5 min"]],
+  agenda:[
+    ["0–10","Check-in","What makes a 1-on-1 feel useful to you as a team member? Share a great or terrible 1-on-1 you've had."],
+    ["10–20","Teach-back","Facilitator covers \"their meeting,\" the 80/20 rule, Joanna's story and the 1-on-1 setup."],
+    ["20–42","Live game: Fixer Buzzer","In triads (leader, team member, observer), run a 7-minute 1-on-1 using the Ylopo scenario. The observer says \"buzz\" every time the leader offers a solution before asking a question, and tracks rough talk time. Rotate roles. Fewest buzzes with the most team-member talk time wins.",true],
+    ["42–52","Debrief","Who talked more? Which questions opened things up? What made it hard not to fix?"],
+    ["52–60","Commit","Confirm your 1-on-1 cadence for every direct report and share your opening question."]
+  ],
+  scenario:["The quiet performer","A reliable support specialist on the night shift has gone quiet on Slack and keeps their camera off in team calls. Their numbers are fine. Your last two 1-on-1s were cancelled for client fires.","Open the 1-on-1. What's your first question? How do you keep the meeting theirs while still finding out what's going on?"],
+  apply:["Put a recurring 30-minute 1-on-1 on the calendar for every direct report","Ask each team member to bring their own agenda, and let them lead","Do Victoria's 10-minute warm-up before every 1-on-1 for two weeks"],
+  self:["Every person on my team has a recurring 1-on-1 with me.","In 1-on-1s, my team member talks more than I do.","I rarely cancel 1-on-1s; I reschedule instead."],
+  reflect:["What did you learn about a team member this cycle that you didn't know before?","Which of your habits (multitasking, jumping to advice, running late) gets in the way of a good 1-on-1?"],
+  games:[
+    {id:"g2",type:"choice",title:"1-on-1 Simulator",intro:"You're meeting Mia, a night-shift support specialist who's been quiet lately. Pick the best response in each round.",rounds:[
+      ["Mia joins the call. How do you open?",["\"Let's go through your ticket numbers first.\"","\"This is your time. What would you like to cover today?\"","\"Quick one today, I've got a client fire at quarter past.\""],1,"It's their meeting. Opening with their agenda signals that this time belongs to them."],
+      ["Mia says: \"Honestly, the night shift is wearing me out.\"",["\"Everyone's tired, it's a busy quarter.\"","\"Have you tried going to bed earlier?\"","\"Tell me more. What's been the hardest part?\""],2,"Listen to understand before you respond. Dismissing or advising too early shuts the conversation down."],
+      ["She says she feels cut off from the day team and isn't sure where her career is going.",["\"I'll move you to day shift starting tomorrow.\"","\"What options do you see? What would help most?\"","\"Growth comes with time. Hang in there.\""],1,"Resist fixing. Helping her find her own options builds ownership, and she'll know what she actually needs."],
+      ["Time to wrap up. What do you say?",["\"Great chat, see you next week.\"","\"Let's recap: you'll draft an idea for a shift-handoff call, and I'll find out about the team lead track. We'll review both next week.\"","\"I'll send notes when I get a chance.\""],1,"Close the loop by reviewing commitments on both sides, then follow through."]]}
+  ],
+  quiz:[
+    ["Roughly how much of a 1-on-1 should the team member be talking?",["About 20%","About 50%","About 80%"],2,"Scott Miller: they talk 80 percent of the time, not you."],
+    ["Why did Joanna resign?",["She was underpaid","Her 1-on-1s only covered project status","She disliked working remotely"],1,"Her leader never asked about her as a person or her career. A later leader who did helped her thrive."],
+    ["What should end every 1-on-1?",["A review of commitments on both sides","A performance rating","A summary email from HR"],0,"Review what each of you committed to and did. It builds trust and accountability both ways."]
+  ],
+  res:[["Practice 2 at FranklinCovey",FC+"practice-2-hold-regular-1-on-1s/"]]
+},
+{
+  id:"m3",n:3,title:"Set Up Your Team to Get Results",short:"Clear goals, real delegation",badge:"Trellis Builder",
+  why:"Ylopo teams move fast and priorities shift with the market and product releases. When people don't know which goals matter most, they work hard on the wrong things. Great managers align goals with company priorities, keep the list short, make progress visible, and delegate the how.",
+  from:"I tell people what to do and how to do it.",to:"I set clear goals with my team, then delegate and support them.",
+  concepts:[
+    ["Align upward","Start with your boss's and the company's priorities so your team's goals clearly move what matters most."],
+    ["Fewer goals, more focus","Limit the team to about three goals at a time. Too many goals means nothing gets real attention."],
+    ["Make goals measurable","Each goal needs a starting point, a finish line and a deadline, e.g. \"Raise first-contact resolution from 72% to 80% by December 31.\""],
+    ["Keep a visible scoreboard","A simple scoreboard that's updated often lets anyone see in seconds whether the team is winning."],
+    ["Explain the why, support the how","People commit to goals they understand and helped shape. Plan with your team, not for it."],
+    ["Celebrate wins, big and small","The book's advice: you can't celebrate enough. Recognition keeps energy up on long goals."]
+  ],
+  tools:[
+    ["Five steps to delegate well","Delegation without abandoning or micromanaging.",["Define the project clearly","Decide whether it should be delegated","Choose the right team member","Set expectations: why it matters, what success looks like, how progress will be measured","Support without micromanaging"]],
+    ["Pre-forgiveness","Scott Miller's former leader gave people room to make decisions and occasional mistakes in advance. Say it out loud: \"Make the call. If it goes wrong, we'll learn from it together.\"",null],
+    ["Scoreboard checklist","A good scoreboard is:",["Simple enough to read in 5 seconds","Visible to the whole team (pinned in Slack or on a shared dashboard)","Updated at least weekly","Showing whether you're winning or losing"]]
+  ],
+  stories:[
+    ["The Paris hotel table settings","Victoria describes a luxury hotel in Paris where managers kept redoing the staff's table settings. The staff simply stopped trying, because their work would be redone anyway."],
+    ["Ribbon in his pocket","As CMO, Scott caught himself choosing the ribbon for a mailer. An employee joked that he must keep ribbon samples in his pocket. It was a wake-up call about micromanaging."],
+    ["The Swedish franchisee","Facing new cost pressures, a fast-food franchisee in Sweden brought his staff in, explained the challenge, and set goals with them. Because the team understood the why, results improved."]
+  ],
+  quotes:[["You cannot celebrate enough.","The book's advice on recognizing wins"]],
+  prep:[["Read the Practice 3 chapter","25 min"],["Play Goal or Wish? and Delegation Lineup","10 min"],["Write your team's top 1–3 goals with a start, finish line and deadline","10 min"]],
+  agenda:[
+    ["0–10","Check-in","Share one goal your team has that is fuzzy today."],
+    ["10–20","Teach-back","Align, limit to three, measure, scoreboard. Share the Paris hotel and ribbon stories."],
+    ["20–35","Live game: Scoreboard Sprint","Small groups get 10 minutes to build a scoreboard for one real team goal (a shared doc or whiteboard is fine). Each group shows theirs for 5 seconds; everyone else says whether the team is winning or losing. Groups score 1 point for each person who reads it correctly.",true],
+    ["35–50","Delegation practice","Use the Ylopo scenario. Walk through the five delegation steps and draft the expectations conversation."],
+    ["50–60","Commit","Name the goal you'll share with your team and the task you'll delegate."]
+  ],
+  scenario:["The onboarding project","Leadership wants new agent-partner onboarding shortened by a week this quarter. You have a capable team lead who has never run a cross-team project.","Write the goal with a start, finish line and deadline. Then walk the five delegation steps: what's fixed, what's theirs to decide, and how you'll support without hovering."],
+  apply:["Share your team's top goals and a visible scoreboard at your next team meeting","Delegate one meaningful project using the five steps","Celebrate one small win publicly this week"],
+  self:["Everyone on my team can state our top goals and how they're measured.","I involve my team in planning how we reach our goals.","When I delegate, I am clear on results and expectations, then step back."],
+  reflect:["Where do you tend to micromanage, and where do you tend to disappear?","What would change if every team member could explain how their work moves a company priority?"],
+  games:[
+    {id:"g3a",type:"sort",title:"Goal or Wish?",intro:"A goal has a starting point, a finish line and a deadline. Everything else is a wish. Sort each one.",buckets:["Wish","Clear goal"],items:[
+      ["Improve client satisfaction.",0],["Raise CSAT from 88% to 93% by March 31.",1],["Be more responsive on Slack.",0],["Cut average first response time from 4 hours to 1 hour by the end of Q1.",1],["Launch more campaigns.",0],["Grow agent partners onboarded per month from 40 to 60 by June 30.",1]]},
+    {id:"g3b",type:"order",title:"Delegation Lineup",intro:"Tap the five delegation steps in the right order. Each wrong tap costs a point.",steps:["Define the project clearly","Decide whether it should be delegated","Choose the right team member","Set expectations: why, what success looks like, how it's measured","Support without micromanaging"]}
+  ],
+  quiz:[
+    ["About how many goals should a team focus on at once?",["About three","About seven","As many as leadership sets"],0,"Limiting to about three keeps the team focused on what matters most."],
+    ["Why did the Paris hotel staff stop putting in effort?",["Their pay was cut","Managers kept redoing their work","They weren't trained"],1,"When leaders redo work, people stop owning it."],
+    ["What does \"pre-forgiveness\" mean?",["Forgiving missed deadlines after the fact","Giving people room to decide and make mistakes before they act","Skipping performance reviews"],1,"It frees people to take ownership without fear."]
+  ],
+  res:[["Practice 3 at FranklinCovey",FC+"practice-3-set-up-your-team-to-get-results/"]]
+},
+{
+  id:"m4",n:4,title:"Create a Culture of Feedback",short:"Courage and consideration",badge:"Pruning Pro",
+  why:"Feedback is how good people become great and how small issues get fixed before a client notices. On remote teams, it's easy to let feedback slide into vague Slack messages or skip it entirely. The goal is a team where helpful feedback flows both ways, often.",
+  from:"I'm the fixer who points out what people are doing wrong.",to:"I give and ask for feedback regularly to unlock my team's potential.",
+  concepts:[
+    ["Balance courage and consideration","Too much courage feels harsh. Too much consideration gets vague and changes nothing. Aim for honest and respectful at the same time."],
+    ["Reinforce what's working","Most feedback should be positive and specific. Name the behavior, say why it matters, and invite more of it."],
+    ["Redirect without judging character","Focus on the behavior and its impact, never on who the person is."],
+    ["Reduce defensiveness first","People can't hear feedback when they feel embarrassed or attacked. Todd Davis sometimes shares feedback he has received himself to lower the stakes."],
+    ["Ask for feedback on yourself","Scott Miller: we become numb to our own weaknesses and habits. Prepare people in advance and ask for specific input."],
+    ["Receive it well","Don't get defensive. Acknowledge what you heard, think it over, and commit to an action."]
+  ],
+  tools:[
+    ["Reinforcing feedback","Use it often.",["Name the specific behavior","Explain why it matters","Invite more of it: \"Let me know if you see other chances to do that.\""]],
+    ["Redirecting feedback: six steps","For behavior that needs to change.",["Prepare: identify the specific behavior and its impact","Leave character judgments out","Open with your positive intent","Describe the behavior and impact in neutral language","Listen to their response and context","Focus on the behavior going forward; build the plan together, with solutions from them where possible"]],
+    ["Receiving feedback","When feedback comes to you.",["Don't defend or explain","Acknowledge and thank them","Take time to evaluate it","Commit to an action and follow up"]]
+  ],
+  stories:[
+    ["The index card","As a college waiter, Scott memorized orders and rushed service, creating chaos in the kitchen. His new manager handed him an index card: \"I need to see a marked improvement in your teamwork.\" Clear, specific and impossible to miss."],
+    ["Victoria's team drawing","In a team exercise, Victoria's team drew pictures of her leadership. The drawings showed her as chaotic and frantic. It was hard to see, and it helped her change."]
+  ],
+  quotes:[["It's a great disservice not to say what needs to be said because it isn't comfortable.","Stephen R. Covey"],["We become numb to our own weaknesses, foibles, stumbling blocks, and habits.","Scott Miller"]],
+  prep:[["Read the Practice 4 chapter","25 min"],["Play the Courage–Consideration Meter","5 min"],["Ask one team member: \"What's one thing I could do better as your manager?\" and write down the answer","10 min"]],
+  agenda:[
+    ["0–10","Check-in","What happened when you asked your team member for feedback? How did it feel to receive it?"],
+    ["10–20","Teach-back","Courage vs. consideration, reinforcing feedback, and the six redirecting steps. Share the index card story."],
+    ["20–35","Live game: Feedback Ladder","Pairs get a too-harsh or too-vague statement and have 3 minutes to rewrite it. The group scores each rewrite 1–5 on courage and 1–5 on consideration. Multiply the two scores; the highest product wins the round. Play three rounds.",true],
+    ["35–50","Role-play","Practice the Ylopo scenario in triads, then each person practices the feedback they've been putting off."],
+    ["50–60","Receiving practice and commit","Each person receives one piece of feedback and practices acknowledge → thank → commit, without defending. Then name this week's conversation."]
+  ],
+  scenario:["The missed handoff","A strong ad-ops specialist has missed shift handoff notes three times this month. Twice, the next shift didn't know a client's campaign was paused, and the client noticed first.","Give the feedback using the six redirecting steps. Then switch roles: they tell you your recent schedule changes have been confusing. Practice receiving it."],
+  apply:["Give one specific piece of reinforcing feedback to each direct report this week","Have the redirecting conversation you've been putting off","Ask your team for one start / stop / continue about your leadership, and share what you'll act on"],
+  self:["I give feedback soon after I see the behavior, not weeks later.","My feedback is specific about behavior and impact.","I ask my team for feedback on my leadership and act on it."],
+  reflect:["Do you lean too far toward courage or toward consideration? What does it cost your team?","What feedback did you receive this cycle, and what did you do with it?"],
+  games:[
+    {id:"g4",type:"sort",title:"Courage–Consideration Meter",intro:"Rate each piece of feedback. Is it too harsh, too vague, or balanced?",buckets:["Too harsh","Too vague","Balanced"],items:[
+      ["\"You're always careless with handoffs. Fix it.\"",0],["\"Handoffs could maybe be a bit better at some point?\"",1],["\"I want you to succeed here. Your last three handoff notes left out paused campaigns, and a client noticed first. What's getting in the way?\"",2],["\"Great job!\"",1],["\"Your summary on yesterday's client call was clear and kept us on time. More of that, please.\"",2],["\"I honestly don't know why we hired you for this.\"",0],["\"Nice work on the report, though everyone has things to work on.\"",1]]}
+  ],
+  quiz:[
+    ["What three things make up reinforcing feedback?",["Behavior, why it matters, invite more of it","Praise, criticism, praise","Rating, ranking, reward"],0,"Specific positive feedback tells people exactly what to repeat."],
+    ["What should you do first when preparing redirecting feedback?",["Draft a performance plan","Identify the specific behavior and its impact","Ask HR to join"],1,"Preparation keeps the conversation specific and free of character judgments."],
+    ["Someone gives you tough feedback. What's the best first response?",["Explain the context so they understand","Acknowledge it and thank them","Ask who else feels that way"],1,"Defending shuts feedback down. Acknowledge, evaluate later, then commit to action."]
+  ],
+  res:[["Practice 4 at FranklinCovey",FC+"practice-4-create-a-culture-of-feedback/"]]
+},
+{
+  id:"m5",n:5,title:"Lead Your Team Through Change",short:"The FranklinCovey Change Model",badge:"All-Season Grower",
+  why:"New AI tools, product launches, process updates, reorganizations: change is constant at Ylopo. People react to change in a predictable emotional pattern. Leaders who know the pattern can make the dip shorter and shallower, and get the team to better results faster.",
+  from:"I control change for my team, or shield them from it.",to:"I champion change with my team, openly and honestly.",
+  concepts:[
+    ["Change follows a pattern","The FranklinCovey Change Model describes four zones. People move through them at different speeds, so diagnose where each person is, including yourself."],
+    ["Zone 1 · Status quo and the announcement","Things feel predictable, then change arrives. Prepare before you announce so you can answer the hard questions."],
+    ["Zone 2 · Disruption","Emotions run high and results often dip. People ask \"what does this mean for me?\" Communicate often and check in one-on-one."],
+    ["Zone 3 · Adoption","Resistance turns into acceptance as people learn the new way. Reset expectations, create early wins, and treat mistakes as learning."],
+    ["Zone 4 · Better performance","The change is in place and results improve. Recognize the effort and capture what you learned for next time."],
+    ["Don't shield, involve","Approach change openly. Inviting questions and ideas builds a nimble team that's ready for the next change."]
+  ],
+  tools:[
+    ["Before you announce","Get clear on three things first.",["Why the change is happening","How success will be measured","The timeline"]],
+    ["When you communicate","How you say it matters.",["Say \"we\" and \"us,\" not \"they\" and \"them\"","Explain the impact on the team and the why","Acknowledge feelings, including uncertainty"]],
+    ["During disruption","Stay close to your people.",["Communicate more often than feels necessary","Check in with each person individually","Correct rumors quickly with accurate information","Model the behavior you're asking for","Invite open discussion, even cynicism"]],
+    ["Moving to adoption","Help the team build momentum.",["Reset expectations and focus on what matters most","Use a scoreboard and create early wins","Treat mistakes as learning","Keep the change on the agenda in team meetings and 1-on-1s"]]
+  ],
+  stories:[
+    ["Paul, the skeptical leader","Paul, a first-level leader, didn't support a new onboarding process. At a sales conference he told the CEO so, and added that he was sure he could get there with a better understanding of why. That conversation helped him lead the change and influence other leaders."],
+    ["Victoria in the financial crisis","When the crisis hit, Victoria told her team the truth: she didn't know what would happen, and they might need to let someone go. Being honest about the uncertainty helped the team focus on what they could control."]
+  ],
+  quotes:[["I'm sure I can get there with a better understanding of why we are doing it this way.","Paul, a first-level leader in the book"]],
+  prep:[["Read the Practice 5 chapter","25 min"],["Play Zone Spotter","5 min"],["Map each team member to a zone for a current or recent change, and note where you are","10 min"]],
+  agenda:[
+    ["0–10","Check-in","Share a change at Ylopo you found hard at first. What helped?"],
+    ["10–20","Teach-back","Walk through the four zones and the actions for each. Share Paul's and Victoria's stories."],
+    ["20–35","Live game: Rumor Mill","The facilitator drops a realistic rumor into each breakout room (e.g. \"I heard the new AI tool will replace our team\"). Groups have 3 minutes to write an honest, empathetic response using \"we\" language. Everyone votes; most votes wins 3 points, runner-up 1. Play two rounds.",true],
+    ["35–50","Team mapping","Each participant places their team on the curve for a real change and picks one action per person."],
+    ["50–60","Commit","Name one conversation that will help someone move to the next zone."]
+  ],
+  scenario:["The new workflow","Your team is moving to a new AI-assisted workflow next month. One senior team member is openly skeptical in team calls, two are excited, and the rest are quiet.","Where is each person likely on the curve? Draft your announcement using \"we\" language. What will you do differently with the skeptic versus the quiet group?"],
+  apply:["Hold a team conversation about a current change: what we know, what we don't, and why it matters","Have a 1-on-1 check-in with the person who seems furthest from Zone 4","Create and celebrate one early win connected to the change"],
+  self:["I explain the why behind changes, not just the what.","I notice and respond when team members are struggling with a change.","I deal with my own reactions to change before I lead my team through it."],
+  reflect:["Where were you on the curve the last time Ylopo announced a big change? What did you need from your leader?","How will you tell when someone has moved from Disruption to Adoption?"],
+  games:[
+    {id:"g5",type:"sort",title:"Zone Spotter",intro:"Which zone of the Change Model does each comment come from?",buckets:["Zone 1","Zone 2","Zone 3","Zone 4"],items:[
+      ["\"Heard there's a big announcement on Friday.\"",0],["\"This new tool is slower than the old way, and my numbers are dropping.\"",1],["\"I found a shortcut in the new workflow. Want to see?\"",2],["\"Our response times are better than before the change.\"",3],["\"Nobody asked us about any of this.\"",1],["\"I'm starting to get the hang of it.\"",2],["\"Wait, what does this mean for my role?\"",0]]}
+  ],
+  quiz:[
+    ["When announcing a change, which language does the book recommend?",["\"They decided…\"","\"We're going to…\"","\"Corporate says…\""],1,"\"We\" and \"us\" show you're in it with your team."],
+    ["A rumor is spreading during disruption. What should you do?",["Ignore it so it dies down","Correct it quickly with accurate information","Find out who started it"],1,"Rumors fill silence. Communicate often and set the record straight."],
+    ["What made Paul's skepticism useful?",["He kept quiet and complied","He told the CEO and asked to understand the why","He organized the team to resist"],1,"Raising concerns openly and seeking the why helped him lead the change."]
+  ],
+  res:[["Practice 5 at FranklinCovey",FC+"practice-5-lead-your-team-through-change/"]]
+},
+{
+  id:"m6",n:6,title:"Manage Your Time and Energy",short:"Big Rocks and the 5 Energy Drivers",badge:"Sunlight Keeper",
+  why:"Managers juggle their own work, their team's needs, client escalations and meetings, often across time zones. Without a plan, urgent work crowds out important work like 1-on-1s and coaching. And a drained leader can't lead well. Your habits also set the norm for your team.",
+  from:"I react to whatever is loudest and run on empty.",to:"I plan my week around priorities and protect my energy and my team's.",
+  concepts:[
+    ["Plan weekly","Each week, start with the leader you want to be and your key priorities. Put your Big Rocks in first, then fit the gravel around them."],
+    ["Block more than meetings","Schedule time for strategic thinking, preparation and transitions, not just calls."],
+    ["Know your energy pattern","Find your natural peaks and dips. Do your most important work at your peak, and consider team members' peaks when you schedule with them."],
+    ["The 5 Energy Drivers","Sleep, Relax, Connect, Move, Eat. Small, steady choices in each keep your energy up over the long run."],
+    ["Rest isn't numbing","Todd Davis notes that passive habits like binge-watching can drain energy rather than restore it."],
+    ["Protect your team's energy too","Notice when people are working unsustainable hours, and help enthusiastic people choose their most important work."]
+  ],
+  tools:[
+    ["Weekly planning in 30 minutes","At the start of each week:",["Picture the leader you want to be this week","Name your few most important priorities","Schedule your Big Rocks first (1-on-1s, coaching, planning)","Fill in the gravel around them","Block thinking, prep and transition time"]],
+    ["The 5 Energy Drivers","Pick one small change at a time.",["Sleep: build a gap between work and bed; keep a calm routine","Relax: take short mental breaks and schedule a longer one","Connect: invest in relationships at work and at home","Move: build movement into the day; find an accountability buddy","Eat: eat to fuel energy, not just to stop hunger"]],
+    ["A question for eager team members","Victoria's way to prevent burnout in high performers:",["\"Of all these great things you could do, which are most important?\""]]
+  ],
+  stories:[
+    ["Victoria's 5:23 a.m. start","In a high-pressure turnaround role, Victoria logged in earlier and earlier until she was starting at 5:23 a.m. She got sick, and progress slowed. Neglecting her health didn't lead to better or faster results."],
+    ["Todd's regret","A talented employee who calculated sales commissions on top of many other duties worked very long hours, week after week. Todd noticed and did nothing. She burned out and resigned."]
+  ],
+  quotes:[["Neglecting my health was certainly not leading to better, faster results.","Victoria Roos Olsson"]],
+  prep:[["Read the Practice 6 chapter","25 min"],["Play Big Rocks Jar","5 min"],["Review last week's calendar: how much time went to your top priorities?","10 min"]],
+  agenda:[
+    ["0–10","Check-in","What did your calendar review reveal?"],
+    ["10–20","Teach-back","Weekly planning, Big Rocks and gravel, energy peaks, the 5 Energy Drivers. Share Victoria's and Todd's stories."],
+    ["20–35","Live game: Calendar Tetris","In pairs, share next week's calendar. Your partner hunts for meetings to cut, shorten or move to your energy peak. Score 1 point for every 15 minutes reclaimed and moved to a Big Rock. Highest total wins.",true],
+    ["35–50","Plan your week","Each participant builds next week's plan with Big Rocks scheduled first, then picks the energy driver to work on."],
+    ["50–60","Program close","Each person shares the one practice they'll keep working on, and the cohort tallies final XP and badges."]
+  ],
+  scenario:["The always-on lead","A team lead covers two time zones and answers Slack from 7 am to midnight. Their team now replies late at night too, and two people have mentioned feeling burned out.","What would you coach this lead to change in their weekly plan? What boundaries would help, and how should they explain them to the team?"],
+  apply:["Do a 30-minute weekly plan with Big Rocks first, two weeks in a row","Move your most important work into your energy peak","Make one small change on your lowest energy driver, and check in on anyone working unsustainable hours"],
+  self:["I plan each week before it starts.","My calendar reflects my most important priorities, not just other people's requests.","I take care of my sleep, rest, relationships, movement and food so I can lead well."],
+  reflect:["What does your team learn about work habits by watching you?","What's one thing you'll stop doing to make room for what matters most?"],
+  games:[
+    {id:"g6",type:"sort",title:"Big Rocks Jar",intro:"Big Rocks go in the jar first. Sort each item: Big Rock or gravel?",buckets:["Gravel","Big Rock"],items:[
+      ["Weekly 1-on-1s with each direct report",1],["Clearing unread messages in #random",0],["Planning next quarter's goals with your team",1],["Reformatting the fonts on a slide deck",0],["Coaching your newest team lead on delegation",1],["Replying-all to an FYI email",0],["Your 30-minute weekly plan",1],["Tweaking your email signature",0]]}
+  ],
+  quiz:[
+    ["What goes on your calendar first in weekly planning?",["Whatever's most urgent","Your Big Rocks","Email time"],1,"Big Rocks first, then gravel fits around them."],
+    ["Which of these is NOT one of the 5 Energy Drivers?",["Sleep","Caffeine","Connect"],1,"The five are Sleep, Relax, Connect, Move and Eat."],
+    ["What's the lesson of Todd's story about the overworked employee?",["Pay overtime","Notice unsustainable hours and act on them","Hire faster"],1,"He noticed and did nothing, and lost a talented person to burnout."]
+  ],
+  res:[["Practice 6 at FranklinCovey",FC+"practice-6-manage-your-time-and-energy/"]]
+}];
+
+/* ---------- video skits ---------- */
+const NIGHT="#1F2328",OFFICE="#4A5A3A",CALL="#3E4349",WARM="#6B5A45",DAWN="#55506E",GREEN="#3F6E12",RED="#7A3A3A";
+const CAST={
+  dana:{name:"Dana",kind:"human",shirt:"#E3A21A",skin:"#C68B59",hair:"#2B1B12",pitch:1.15,x:30},
+  rico:{name:"Rico",kind:"human",shirt:"#3FA37A",skin:"#8D5A3B",hair:"#151010",pitch:0.85,x:62},
+  mia:{name:"Mia",kind:"human",shirt:"#D9668F",skin:"#E1B48C",hair:"#3A2418",pitch:1.3,x:62},
+  jo:{name:"Jo",kind:"human",shirt:"#5B8DEF",skin:"#B07A4F",hair:"#5A3A22",pitch:1.05,x:62},
+  sam:{name:"Sam",kind:"human",shirt:"#8C6BD9",skin:"#F0C8A0",hair:"#C9862E",pitch:0.95,x:62},
+  kai:{name:"Kai",kind:"human",shirt:"#27A7B8",skin:"#9C6B45",hair:"#1E1A17",pitch:0.9,x:62},
+  bot:{name:"Coach Bot",kind:"bot",pitch:1.6,x:86}
+};
+const VIDEOS={
+m1:{title:"Captain Do-It-Myself",blurb:"Freshly promoted Dana tries to fix everything personally. It goes about as well as you'd expect.",cast:["dana","rico","bot"],beats:[
+  {who:"bot",say:"Welcome to Greenhouse Theater. Meet Dana: freshly promoted, still clutching her Top Performer trophy.",at:"Ylopo HQ · 9:02 AM",bg:OFFICE,prop:{dana:"trophy"},m:{dana:"smug"}},
+  {who:"rico",say:"Hey Dana, an agent partner's lead flow is broken. Any tips?",m:{rico:"normal"}},
+  {who:"dana",say:"Tips? Step aside, Rico. I'll fix it myself. Twenty minutes, tops.",m:{dana:"smug"},x:{dana:42}},
+  {who:"bot",say:"Narrator's note: it was not twenty minutes.",at:"Ylopo HQ · 11:47 PM",bg:NIGHT,prop:{dana:"laptop"},m:{dana:"sleepy"}},
+  {who:"dana",say:"Fixed it! Also fixed Rico's other ticket. And the coffee machine.",m:{dana:"sleepy",rico:"sad"}},
+  {who:"rico",say:"So… I'll just wait for you to fix the next one too?",m:{rico:"sad"}},
+  {who:"dana",say:"Wait. If I fix everything, nobody learns anything. And I never sleep.",m:{dana:"shocked"},x:{dana:30}},
+  {who:"dana",say:"Rico, what have you tried so far, and what would you do next?",at:"The next morning",bg:OFFICE,prop:{dana:null},m:{dana:"happy"}},
+  {who:"rico",say:"I'd check the routing rules first. Then test with one partner.",m:{rico:"happy"}},
+  {who:"bot",say:"Lesson: your people are your results. Retire the trophy. Coach, don't rescue.",m:{dana:"happy",rico:"happy",bot:"happy"}}]},
+m2:{title:"The 4-Minute 1-on-1",blurb:"Dana speedruns a 1-on-1 with Mia. Then Coach Bot hits rewind.",cast:["dana","mia","bot"],beats:[
+  {who:"bot",say:"Dana has a 30-minute 1-on-1 with Mia. Dana plans to use four of them.",at:"Video call · 8:00 PM",bg:CALL,prop:{dana:"phone"},m:{dana:"normal"}},
+  {who:"dana",say:"Hi-Mia-quick-status-numbers-good-great-anything-else-no-okay-bye!",m:{dana:"smug",mia:"shocked"}},
+  {who:"bot",say:"Analysis complete. Dana talked 97 percent of the time. Mia blinked twice.",m:{bot:"shocked"}},
+  {who:"bot",say:"Rewinding the tape. Take two.",at:"Take two",bg:WARM,prop:{dana:null},m:{dana:"normal",mia:"normal",bot:"normal"}},
+  {who:"dana",say:"This is your time, Mia. What would you like to talk about?",m:{dana:"happy"}},
+  {who:"mia",say:"Honestly? The night shift is wearing me out, and I'm not sure where my career is going.",m:{mia:"sad"}},
+  {who:"dana",say:"Oh! I can fix that. I'll just move you to—",m:{dana:"smug"},x:{dana:40}},
+  {who:"bot",say:"BZZZT. Fixer alert. Ask first.",m:{bot:"shocked",dana:"shocked"}},
+  {who:"dana",say:"Right. Tell me more. What options do you see?",x:{dana:30},m:{dana:"normal",bot:"happy"}},
+  {who:"mia",say:"Maybe a handoff call with the day team. And I'd love to try leading it.",m:{mia:"happy"}},
+  {who:"bot",say:"Lesson: it's their meeting. They talk 80 percent. You listen to understand, then review commitments.",m:{dana:"happy"}}]},
+m3:{title:"The Ribbon Incident",blurb:"Dana delegates a project to Jo. Sort of. Coach Bot confiscates the ribbon.",cast:["dana","jo","bot"],beats:[
+  {who:"bot",say:"Dana has delegated the onboarding project to Jo. Allegedly.",at:"Project kickoff",bg:OFFICE,m:{dana:"happy",jo:"happy"}},
+  {who:"dana",say:"It's all yours, Jo! Just use my template, my fonts, my timeline, and CC me on everything.",m:{dana:"smug",jo:"shocked"}},
+  {who:"jo",say:"Should I also breathe in your preferred rhythm?",m:{jo:"smug"}},
+  {who:"bot",say:"Later that day, Dana was seen picking ribbon colors for a mailer. Again.",at:"Later that day",bg:WARM,prop:{dana:"ribbon"},m:{dana:"happy"}},
+  {who:"jo",say:"So our goal is to make onboarding… better?",m:{jo:"normal"}},
+  {who:"bot",say:"That is a wish, not a goal. Goals have a starting point, a finish line and a deadline.",m:{bot:"smug"}},
+  {who:"dana",say:"Let's try: cut onboarding from 21 days to 14 days by March 31.",prop:{dana:null},m:{dana:"normal"}},
+  {who:"dana",say:"You decide the how. We'll check in Fridays. And I pre-forgive you for one mistake.",m:{dana:"happy"}},
+  {who:"jo",say:"Pre-forgiveness? Accepted. I'm already using it.",m:{jo:"happy"}},
+  {who:"bot",say:"Lesson: explain the why, set clear expectations, then support without hovering. Put the ribbon down.",m:{bot:"happy"}}]},
+m4:{title:"The Feedback Sandwich",blurb:"Dana tries to give Sam feedback three times. Only one of them works.",cast:["dana","sam","bot"],beats:[
+  {who:"bot",say:"Dana needs to talk to Sam about missed handoff notes. Dana has prepared a sandwich.",at:"Take one · Too vague",bg:CALL,m:{dana:"happy",sam:"happy"}},
+  {who:"dana",say:"Sam, you're great! The handoff thing is kind of maybe a thing? Also, great shoes!",m:{dana:"happy"}},
+  {who:"sam",say:"Thanks! So… my shoes are the problem?",m:{sam:"shocked"}},
+  {who:"bot",say:"All consideration, zero courage. Sam learned nothing, except about shoes.",m:{bot:"sad"}},
+  {who:"dana",say:"Your handoffs are a disaster, and frankly, so are you!",at:"Take two · Too harsh",bg:RED,m:{dana:"angry",sam:"sad",bot:"normal"}},
+  {who:"bot",say:"All courage, no consideration. And never judge character. Take three.",m:{bot:"shocked"}},
+  {who:"dana",say:"Sam, I want you to succeed here. Your last three handoff notes left out paused campaigns, and a client noticed first. What's getting in the way?",at:"Take three · Balanced",bg:GREEN,m:{dana:"normal",sam:"normal",bot:"normal"}},
+  {who:"sam",say:"Oh. The template has no field for paused campaigns. I'll add one today.",m:{sam:"happy"}},
+  {who:"dana",say:"Great idea. And tell me if anything I do makes handoffs harder.",m:{dana:"happy"}},
+  {who:"bot",say:"Lesson: courage plus consideration. Specific behavior, real impact, then listen. Shoes optional.",m:{bot:"happy"}}]},
+m5:{title:"The Change Express",blurb:"Coach Bot gives Kai a guided tour of all four zones of change.",cast:["dana","kai","bot"],beats:[
+  {who:"bot",say:"Welcome aboard the Change Express. Please keep your arms inside the workflow.",at:"Zone 1 · The announcement",bg:OFFICE,m:{kai:"normal",dana:"normal"}},
+  {who:"kai",say:"Wait, a new AI workflow? What does this mean for my job?",m:{kai:"shocked"}},
+  {who:"dana",say:"Great question. Here's what we know, what we don't know yet, and why we're doing it.",m:{dana:"normal"}},
+  {who:"bot",say:"Now entering Zone 2: Disruption. Expect turbulence and dramatic sighing.",at:"Zone 2 · Disruption",bg:RED,m:{bot:"smug"}},
+  {who:"kai",say:"It's slower than the old way! And I heard the robots are taking over!",m:{kai:"sad"}},
+  {who:"bot",say:"As the robot in this video, I can confirm I just want to help with spreadsheets.",m:{bot:"happy"}},
+  {who:"dana",say:"We'll get through this together. Daily check-ins, and we fix the slowest steps first.",m:{dana:"happy"}},
+  {who:"kai",say:"Hey, I found a shortcut in the new flow. Want to see?",at:"Zone 3 · Adoption",bg:DAWN,m:{kai:"happy"}},
+  {who:"dana",say:"Response times are down 30 percent. Cake for everyone!",at:"Zone 4 · Better performance",bg:GREEN,prop:{dana:"cake"},m:{dana:"happy",kai:"happy"}},
+  {who:"bot",say:"Lesson: don't shield, involve. Say we, not they. Communicate often and celebrate early wins.",m:{bot:"happy"}}]},
+m6:{title:"Dana's 5:23 AM",blurb:"Dana tries to win at time management by never stopping. Coach Bot brings a jar.",cast:["dana","bot"],beats:[
+  {who:"bot",say:"It's 5:23 a.m. Dana is already answering Slack. The birds aren't even up.",at:"Home office · 5:23 AM",bg:DAWN,prop:{dana:"coffee"},m:{dana:"sleepy"},x:{dana:36}},
+  {who:"dana",say:"If I start earlier, I'll finally get ahead!",m:{dana:"smug"}},
+  {who:"dana",say:"I'm so far ahead I've looped back around to behind.",at:"Home office · 11:58 PM",bg:NIGHT,m:{dana:"sleepy"}},
+  {who:"bot",say:"Let's try the jar. Gravel goes in first: Slack, emails, font tweaks…",prop:{bot:"jar"},m:{bot:"smug"}},
+  {who:"dana",say:"The jar is full. Where do my 1-on-1s go?",m:{dana:"shocked"}},
+  {who:"bot",say:"Exactly. Big Rocks go in first. Then the gravel fits around them.",m:{bot:"happy"}},
+  {who:"dana",say:"Monday plan: 1-on-1s, coaching Jo, team goals. Then the gravel.",at:"Monday · weekly plan",bg:OFFICE,prop:{dana:null,bot:null},m:{dana:"happy"}},
+  {who:"bot",say:"Also: Sleep, Relax, Connect, Move, Eat. Coffee is not a food group.",m:{bot:"smug"}},
+  {who:"dana",say:"Fine. I'll log off at six, and tell my team they can too.",m:{dana:"happy"}},
+  {who:"bot",say:"Lesson: plan weekly, Big Rocks first, and protect your energy, because your team copies you.",m:{bot:"happy"}}]}
+};
+
+function faceHuman(c,mood){
+  const k="#1b1b1b";let eyes,mouth,brows="";
+  if(mood==="happy"){eyes=`<path d="M35 55 Q40 49 45 55 M55 55 Q60 49 65 55" stroke="${k}" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="33" cy="64" r="4" fill="#F28B8B" opacity=".5"/><circle cx="67" cy="64" r="4" fill="#F28B8B" opacity=".5"/>`;mouth=`<path d="M40 65 Q50 79 60 65Z" fill="${k}"/>`}
+  else if(mood==="shocked"){eyes=`<circle cx="40" cy="53" r="6" fill="#fff"/><circle cx="60" cy="53" r="6" fill="#fff"/><circle cx="40" cy="53" r="2.8" fill="${k}"/><circle cx="60" cy="53" r="2.8" fill="${k}"/>`;mouth=`<ellipse cx="50" cy="70" rx="5" ry="6.5" fill="${k}"/>`;brows=`<path d="M34 43 L45 41 M55 41 L66 43" stroke="${k}" stroke-width="2.5" stroke-linecap="round"/>`}
+  else if(mood==="sleepy"){eyes=`<path d="M35 55 L45 56 M55 56 L65 55" stroke="${k}" stroke-width="3" stroke-linecap="round"/><path d="M34 60 Q40 63 46 60 M54 60 Q60 63 66 60" stroke="#7A5A9A" stroke-width="2" fill="none" opacity=".6"/>`;mouth=`<path d="M45 70 L55 69" stroke="${k}" stroke-width="2.5" stroke-linecap="round"/>`}
+  else if(mood==="sad"){eyes=`<circle cx="40" cy="55" r="3.5" fill="${k}"/><circle cx="60" cy="55" r="3.5" fill="${k}"/>`;brows=`<path d="M34 47 L45 44 M55 44 L66 47" stroke="${k}" stroke-width="2.5" stroke-linecap="round"/>`;mouth=`<path d="M42 72 Q50 65 58 72" stroke="${k}" stroke-width="3" fill="none" stroke-linecap="round"/>`}
+  else if(mood==="angry"){eyes=`<circle cx="40" cy="55" r="3.5" fill="${k}"/><circle cx="60" cy="55" r="3.5" fill="${k}"/>`;brows=`<path d="M34 45 L46 49 M54 49 L66 45" stroke="${k}" stroke-width="3" stroke-linecap="round"/>`;mouth=`<path d="M41 71 L59 71 L57 74 L43 74Z" fill="${k}"/>`}
+  else if(mood==="smug"){eyes=`<path d="M35 54 L45 54 M55 54 L65 54" stroke="${k}" stroke-width="3" stroke-linecap="round"/><circle cx="40" cy="56" r="2.5" fill="${k}"/><circle cx="60" cy="56" r="2.5" fill="${k}"/>`;brows=`<path d="M55 42 Q60 38 66 41" stroke="${k}" stroke-width="2.5" fill="none" stroke-linecap="round"/>`;mouth=`<path d="M43 68 Q53 72 60 64" stroke="${k}" stroke-width="3" fill="none" stroke-linecap="round"/>`}
+  else{eyes=`<circle cx="40" cy="54" r="3.5" fill="${k}"/><circle cx="60" cy="54" r="3.5" fill="${k}"/>`;mouth=`<path d="M42 67 Q50 73 58 67" stroke="${k}" stroke-width="3" fill="none" stroke-linecap="round"/>`}
+  return `<svg class="body" viewBox="0 0 100 140"><path d="M16 140 Q16 88 50 86 Q84 88 84 140Z" fill="${c.shirt}"/><path d="M42 86 L50 98 L58 86" fill="#fff" opacity=".35"/><circle cx="50" cy="54" r="30" fill="${c.skin}"/><path d="M19 52 Q20 18 50 18 Q81 18 81 52 Q74 30 50 32 Q28 31 19 52Z" fill="${c.hair}"/>${brows}${eyes}<g class="mouth">${mouth}</g></svg>`;
+}
+function faceBot(mood){
+  const g="#B6F05A";let eyes,mouth;
+  if(mood==="happy"){eyes=`<path d="M34 50 Q39 43 44 50 M56 50 Q61 43 66 50" stroke="${g}" stroke-width="3.5" fill="none" stroke-linecap="round"/>`;mouth=`<path d="M40 58 Q50 66 60 58" stroke="${g}" stroke-width="3" fill="none" stroke-linecap="round"/>`}
+  else if(mood==="shocked"){eyes=`<circle cx="39" cy="47" r="6" fill="none" stroke="${g}" stroke-width="3"/><circle cx="61" cy="47" r="6" fill="none" stroke="${g}" stroke-width="3"/>`;mouth=`<rect x="45" y="56" width="10" height="7" rx="2" fill="${g}"/>`}
+  else if(mood==="sad"){eyes=`<rect x="34" y="45" width="10" height="4" rx="2" fill="${g}"/><rect x="56" y="45" width="10" height="4" rx="2" fill="${g}"/>`;mouth=`<path d="M41 63 Q50 56 59 63" stroke="${g}" stroke-width="3" fill="none" stroke-linecap="round"/>`}
+  else if(mood==="smug"){eyes=`<rect x="34" y="46" width="10" height="4" rx="2" fill="${g}"/><rect x="56" y="43" width="10" height="9" rx="3" fill="${g}"/>`;mouth=`<path d="M42 59 L58 57" stroke="${g}" stroke-width="3" stroke-linecap="round"/>`}
+  else{eyes=`<rect x="35" y="42" width="8" height="10" rx="3" fill="${g}"/><rect x="57" y="42" width="8" height="10" rx="3" fill="${g}"/>`;mouth=`<path d="M42 59 L58 59" stroke="${g}" stroke-width="3" stroke-linecap="round"/>`}
+  return `<svg class="body" viewBox="0 0 100 140"><path d="M24 140 V98 Q24 88 34 88 H66 Q76 88 76 98 V140Z" fill="#A6A9AC"/><circle cx="50" cy="112" r="7" fill="#7BC109"/><line x1="50" y1="24" x2="50" y2="12" stroke="#CDD0D3" stroke-width="3"/><circle class="antenna" cx="50" cy="10" r="5" fill="#7BC109"/><rect x="18" y="24" width="64" height="56" rx="14" fill="#CDD0D3"/><rect x="25" y="31" width="50" height="42" rx="9" fill="#0E1A36"/>${eyes}<g class="mouth">${mouth}</g></svg>`;
+}
+const PROPS={
+  trophy:`<svg viewBox="0 0 40 40"><path d="M10 6h20v8a10 10 0 0 1-20 0z" fill="#F2BC4B"/><path d="M10 9H5a5 5 0 0 0 6 7M30 9h5a5 5 0 0 1-6 7" stroke="#F2BC4B" stroke-width="2.5" fill="none"/><rect x="17" y="23" width="6" height="7" fill="#D99A1E"/><rect x="11" y="30" width="18" height="5" rx="1.5" fill="#8A5A12"/></svg>`,
+  laptop:`<svg viewBox="0 0 40 40"><rect x="7" y="9" width="26" height="17" rx="2" fill="#2B3350"/><rect x="9" y="11" width="22" height="13" fill="#B6F05A"/><path d="M3 27h34l-3 5H6z" fill="#9AA3B8"/></svg>`,
+  phone:`<svg viewBox="0 0 40 40"><rect x="12" y="4" width="16" height="32" rx="3" fill="#2B3350"/><rect x="14" y="8" width="12" height="22" fill="#F28B8B"/><text x="20" y="22" text-anchor="middle" font-size="8" font-weight="700" fill="#fff">4:00</text></svg>`,
+  ribbon:`<svg viewBox="0 0 40 40"><path d="M20 18 L6 9 V27 Z M20 18 L34 9 V27 Z" fill="#E86FA4"/><circle cx="20" cy="18" r="4" fill="#C2457E"/><path d="M18 21 L12 36 M22 21 L28 36" stroke="#E86FA4" stroke-width="3"/></svg>`,
+  jar:`<svg viewBox="0 0 40 40"><rect x="9" y="5" width="22" height="4" rx="1" fill="#9AA3B8"/><path d="M8 10h24v24a3 3 0 0 1-3 3H11a3 3 0 0 1-3-3z" fill="#CFE6F5" opacity=".75"/><g fill="#8A7B6A"><circle cx="13" cy="33" r="2"/><circle cx="18" cy="34" r="2"/><circle cx="23" cy="33" r="2"/><circle cx="28" cy="34" r="2"/><circle cx="15" cy="29" r="2"/><circle cx="21" cy="29" r="2"/><circle cx="27" cy="29" r="2"/><circle cx="12" cy="25" r="2"/><circle cx="18" cy="24" r="2"/><circle cx="24" cy="25" r="2"/><circle cx="29" cy="23" r="2"/><circle cx="15" cy="19" r="2"/><circle cx="22" cy="19" r="2"/><circle cx="28" cy="17" r="2"/><circle cx="13" cy="14" r="2"/><circle cx="20" cy="13" r="2"/></g></svg>`,
+  cake:`<svg viewBox="0 0 40 40"><rect x="7" y="20" width="26" height="14" rx="2" fill="#F2BC4B"/><path d="M7 24 Q12 28 17 24 Q22 28 27 24 Q31 27 33 24 V20 H7Z" fill="#fff"/><rect x="19" y="11" width="2.5" height="9" fill="#B6F05A"/><path d="M20 6 Q23 9 20 11 Q17 9 20 6Z" fill="#F28B5B"/></svg>`,
+  coffee:`<svg viewBox="0 0 40 40"><path d="M9 14h18v14a6 6 0 0 1-6 6h-6a6 6 0 0 1-6-6z" fill="#fff"/><path d="M27 17h3a4 4 0 0 1 0 8h-3" stroke="#fff" stroke-width="2.5" fill="none"/><path d="M14 4 Q12 8 14 11 M19 3 Q17 7 19 11" stroke="#fff" stroke-width="1.8" fill="none" opacity=".7"/><text x="18" y="26" text-anchor="middle" font-size="7" font-weight="700" fill="#7A4B2A">#5</text></svg>`
+};
+
+const P={};let synthVoices=[];
+try{const s=window.speechSynthesis;if(s){synthVoices=s.getVoices();s.onvoiceschanged=()=>{synthVoices=s.getVoices()}}}catch(e){}
+function frames(v){let cur={x:{},m:{},prop:{},at:"",bg:CALL};v.cast.forEach(k=>{cur.x[k]=CAST[k].x;cur.m[k]="normal"});
+  return v.beats.map(b=>{cur={x:{...cur.x,...(b.x||{})},m:{...cur.m,...(b.m||{})},prop:{...cur.prop,...(b.prop||{})},at:b.at??cur.at,bg:b.bg??cur.bg};return {...cur,who:b.who,say:b.say}})}
+function videoHTML(m){
+  const v=VIDEOS[m.id];if(!v)return "";
+  return `<section class="block"><div class="phase"><span class="chip">Watch · about 1 minute</span><h3>${esc(v.title)}</h3></div>
+  <div class="vid" id="vid-${m.id}">
+    <div class="stage" id="st-${m.id}"><span class="loc"></span><span class="ttl">Greenhouse Theater</span>
+      ${v.cast.map(k=>`<div class="actor" data-a="${k}" style="left:${CAST[k].x}%"><span class="pv"></span><span class="nm">${esc(CAST[k].name)}</span></div>`).join("")}
+      <div class="bubble" hidden></div>
+      <div class="cover"><div><h4>${esc(v.title)}</h4><p>${esc(v.blurb)}</p><button class="bigplay" data-vplay="${m.id}">▶ Play skit</button></div></div>
+      <div class="wrapup" hidden><div><h4>That's a wrap</h4><p></p><button class="bigplay" data-vreplay="${m.id}">↺ Watch again</button></div></div>
+    </div>
+    <div class="controls">
+      <button class="btn sm" data-vtoggle="${m.id}">▶ Play</button>
+      <div class="segs" role="group" aria-label="Scenes">${v.beats.map((_,i)=>`<button data-vseek="${m.id}" data-i="${i}" aria-label="Scene ${i+1}"></button>`).join("")}</div>
+      <button class="btn sm ghost" data-vvoice="${m.id}" aria-pressed="${state._voice!==false}">${state._voice!==false?"Voice on":"Voice off"}</button>
+    </div>
+    <p class="caption" aria-live="polite" id="cap-${m.id}">Play the skit on your own during prep, or put it on screen to open the live session. Watch to the end for +${XP.video} XP.</p>
+  </div></section>`;
+}
+function vRender(id){
+  const p=P[id];if(!p)return;const f=p.fr[p.i],st=document.getElementById("st-"+id);if(!st)return;
+  st.style.background=f.bg;st.querySelector(".loc").textContent=f.at;
+  st.querySelectorAll(".actor").forEach(a=>{const k=a.dataset.a,c=CAST[k];a.style.left=f.x[k]+"%";a.classList.toggle("talk",p.playing&&f.who===k);
+    a.querySelector(".pv").innerHTML=(c.kind==="bot"?faceBot(f.m[k]):faceHuman(c,f.m[k]))+(f.prop[k]?`<span class="prop">${PROPS[f.prop[k]]}</span>`:"");});
+  const b=st.querySelector(".bubble"),sx=Math.min(74,Math.max(26,f.x[f.who]));
+  b.hidden=false;b.className="bubble"+(CAST[f.who].kind==="bot"?" bot":"");b.style.left=sx+"%";b.innerHTML=`<b>${esc(CAST[f.who].name)}</b>${esc(f.say)}`;
+  document.getElementById("cap-"+id).innerHTML=`<b>${esc(CAST[f.who].name)}:</b> ${esc(f.say)}`;
+  document.querySelectorAll(`[data-vseek="${id}"]`).forEach((s,k)=>{s.classList.toggle("on",k<p.i);s.classList.toggle("cur",k===p.i)});
+  const t=document.querySelector(`[data-vtoggle="${id}"]`);if(t)t.textContent=p.playing?"❚❚ Pause":"▶ Play";
+}
+function vSpeak(id){
+  const p=P[id],f=p.fr[p.i],tok=++p.tok,est=1400+f.say.length*62;
+  const adv=()=>{if(p.tok!==tok||!p.playing)return;clearTimeout(p.t);p.t=setTimeout(()=>vNext(id),450)};
+  clearTimeout(p.t);
+  if(state._voice!==false&&window.speechSynthesis){
+    try{const s=window.speechSynthesis;s.cancel();const u=new SpeechSynthesisUtterance(f.say.replace(/—/g,", "));const c=CAST[f.who];
+      u.pitch=c.pitch;u.rate=c.kind==="bot"?1.08:1.04;const en=synthVoices.filter(v=>/^en/i.test(v.lang));
+      if(en.length){const idx=Object.keys(CAST).indexOf(f.who)%en.length;u.voice=en[idx]}
+      u.onend=adv;u.onerror=()=>{p.t=setTimeout(adv,est)};s.speak(u);
+      p.t=setTimeout(adv,est*2.2+2500);return}catch(e){}
+  }
+  p.t=setTimeout(adv,est);
+}
+function vPlay(id){const p=P[id];const st=document.getElementById("st-"+id);st.querySelector(".cover").hidden=true;st.querySelector(".wrapup").hidden=true;
+  if(p.i>=p.fr.length-1&&p.ended){p.i=0}p.ended=false;p.playing=true;vRender(id);vSpeak(id)}
+function vPause(id){const p=P[id];if(!p)return;p.playing=false;p.tok++;clearTimeout(p.t);try{window.speechSynthesis&&window.speechSynthesis.cancel()}catch(e){}vRender(id)}
+function vNext(id){const p=P[id];if(!p||!p.playing)return;if(p.i<p.fr.length-1){p.i++;vRender(id);vSpeak(id)}else vEnd(id)}
+function vEnd(id){const p=P[id];p.playing=false;p.ended=true;vRender(id);
+  const st=document.getElementById("st-"+id),w=st.querySelector(".wrapup");w.querySelector("p").textContent=p.fr[p.fr.length-1].say;w.hidden=false;st.querySelector(".bubble").hidden=true;
+  if(!state[id+"-video"]){state[id+"-video"]=true;save();renderRail(current);refreshChip()}}
+function vInit(id){if(!VIDEOS[id])return;P[id]={fr:frames(VIDEOS[id]),i:0,playing:false,t:null,tok:0,ended:false};vRender(id);
+  const st=document.getElementById("st-"+id);st.querySelector(".bubble").hidden=true;document.getElementById("cap-"+id).textContent=`Play the skit on your own during prep, or put it on screen to open the live session. Watch to the end for +${XP.video} XP${state[id+"-video"]?" (earned)":""}.`}
+function vStopAll(){Object.keys(P).forEach(vPause)}
+
+/* ---------- state ---------- */
+const KEY="ylopo-gma-v2";
+let state={};
+try{state=JSON.parse(localStorage.getItem(KEY)||"{}")||{}}catch(e){state={}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+
+/* ---------- XP ---------- */
+const XP={prep:10,live:25,apply:20,commit:10,self:10,gamePt:5,quizPt:10,video:15};
+function gameMax(g){return g.type==="sort"?g.items.length:g.type==="choice"?g.rounds.length:g.steps.length}
+function modXP(m){
+  let x=0,max=0;
+  m.prep.forEach((_,i)=>{max+=XP.prep;if(state[m.id+"-p"+i])x+=XP.prep});
+  max+=XP.live;if(state[m.id+"-live"])x+=XP.live;
+  m.apply.forEach((_,i)=>{max+=XP.apply;if(state[m.id+"-a"+i])x+=XP.apply});
+  max+=XP.commit;if((state[m.id+"-commit"]||"").trim().length>10)x+=XP.commit;
+  max+=XP.self;if(m.self.every((_,i)=>state[m.id+"-s"+i]))x+=XP.self;
+  max+=XP.video;if(state[m.id+"-video"])x+=XP.video;
+  m.games.forEach(g=>{max+=gameMax(g)*XP.gamePt;x+=(state[g.id]||0)*XP.gamePt});
+  max+=m.quiz.length*XP.quizPt;x+=(state[m.id+"-quiz"]||0)*XP.quizPt;
+  return {x,max};
+}
+function badgeEarned(m){
+  const items=[...m.prep.map((_,i)=>m.id+"-p"+i),m.id+"-live",...m.apply.map((_,i)=>m.id+"-a"+i)];
+  return items.every(k=>state[k]) && m.games.every(g=>state[g.id]>0) && (state[m.id+"-quiz"]||0)>=m.quiz.length-1;
+}
+function totalXP(){return MODULES.reduce((a,m)=>a+modXP(m).x,0)+MODULES.filter(badgeEarned).length*50}
+function levelOf(x){let i=0;LEVELS.forEach((l,k)=>{if(x>=l[0])i=k});return i}
+let lastXP=null;
+function renderXP(){
+  const x=totalXP(),i=levelOf(x),cur=LEVELS[i][0],nxt=LEVELS[i+1]?LEVELS[i+1][0]:null;
+  document.getElementById("lvlNum").textContent=i+1;
+  document.getElementById("lvlName").textContent=LEVELS[i][1];
+  document.getElementById("xpTxt").textContent=nxt?`${x} / ${nxt} XP`:`${x} XP · max level`;
+  document.getElementById("xpBar").style.width=(nxt?Math.round((x-cur)/(nxt-cur)*100):100)+"%";
+  if(lastXP!==null&&x>lastXP){const up=levelOf(lastXP)<i;toast(up?`Level up! You're now a ${LEVELS[i][1]}`:`+${x-lastXP} XP`)}
+  lastXP=x;
+}
+let tt;function toast(t){const el=document.getElementById("toast");el.textContent=t;el.classList.add("show");clearTimeout(tt);tt=setTimeout(()=>el.classList.remove("show"),2200)}
+
+function badgeSVG(n,earned){
+  const hues=["#7BC109","#5E9A06","#7E8184","#4A7F12","#929496","#6AA80A"];const c=earned?hues[n-1]:"#8B93A5";
+  return `<svg viewBox="0 0 56 56" aria-hidden="true"><path d="M28 3l21 12v26L28 53 7 41V15z" fill="${c}"/><path d="M28 9l16 9v20L28 47 12 38V18z" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1.5"/><text x="28" y="34" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800" font-size="18" fill="#fff">${n}</text></svg>`;
+}
+
+/* ---------- rail ---------- */
+function renderRail(active){
+  const tabs=[{id:"overview",num:"◆",lbl:"Program overview",sub:"How it works · badges"}].concat(MODULES.map(m=>({id:m.id,num:m.n,lbl:m.title,sub:m.short,done:badgeEarned(m)})));
+  document.getElementById("rail").innerHTML=tabs.map(t=>`<button class="tab${t.done?" done":""}" role="tab" aria-selected="${t.id===active}" data-go="${t.id}"><span class="num">${t.done?"✓":t.num}</span><span class="lbl">${esc(t.lbl)}<span class="sub">${esc(t.sub)}</span></span></button>`).join("");
+  renderXP();
+}
+
+/* ---------- overview ---------- */
+function overview(){
+  const x=totalXP(),li=levelOf(x);
+  return `<div class="panel">
+  <div class="hero"><div class="eyebrow">Program overview</div><h2>Everyone at Ylopo deserves a great manager</h2>
+  <p>This program turns the six critical practices from <em>Everyone Deserves a Great Manager</em> into a 12-week blended learning path for Ylopo managers and team leaders. Each module pairs self-paced prep and games with a live cohort session and two weeks of practice on your real team. Earn XP as you go, level up, and collect all six practice badges.</p></div>
+  <section class="block"><h3>Your badges</h3>
+  <div class="badges">${MODULES.map(m=>{const e=badgeEarned(m);return `<button class="badge${e?"":" locked"}" data-go="${m.id}">${badgeSVG(m.n,e)}<span class="bn">${esc(m.badge)}</span><span class="bs">${e?"Earned · +50 XP":"Finish the checklist, game and quiz"}</span></button>`}).join("")}</div></section>
+  <section class="block"><h3>Why this matters</h3>
+  <div class="stats">
+    <div class="stat"><strong>70%</strong><p>of the variance in team engagement comes from the manager, per Gallup research cited in the book.</p></div>
+    <div class="stat"><strong>~12 yrs</strong><p>is the typical gap between a person's first leadership role (around age 30) and their first leadership training (around 42), per research cited in the book.</p></div>
+    <div class="stat"><strong>People skills</strong><p>drive most of a first-level leader's success, yet most leaders are promoted for technical skill.</p></div>
+  </div></section>
+  <section class="block"><h3>How each module works</h3>
+  <div class="flow">
+    <div class="card"><h4>1 · Plant</h4><p>About 40 minutes on your own. Read the chapter, take the self-check, and play the module game.</p></div>
+    <div class="card"><h4>2 · Check the soil</h4><p>A three-question quiz. Get at least two right to qualify for the badge.</p></div>
+    <div class="card"><h4>3 · Grow together</h4><p>60 minutes with your cohort, including a live team game, Ylopo scenarios and role-play.</p></div>
+    <div class="card"><h4>4 · Bloom</h4><p>Two weeks of real actions with your team, plus a written commitment and reflection.</p></div>
+  </div></section>
+  <section class="block"><h3>Levels</h3>
+  <div class="levels"><table><thead><tr><th>XP</th><th>Level</th></tr></thead><tbody>
+  ${LEVELS.map((l,i)=>`<tr class="${i===li?"cur":""}"><td>${l[0]}+</td><td>${i+1}. ${esc(l[1])}${i===li?" · you are here":""}</td></tr>`).join("")}
+  </tbody></table></div>
+  <p class="note">Earn XP for prep (${XP.prep} each), the live session (${XP.live}), each apply action (${XP.apply}), your self-check (${XP.self}), watching the module skit (${XP.video}) and your commitment (${XP.commit}), ${XP.gamePt} per correct game answer, ${XP.quizPt} per quiz answer, and a ${50} XP bonus for each badge. Your best game and quiz scores count.</p></section>
+  <section class="block"><h3>Suggested schedule</h3>
+  <div class="timeline"><table><thead><tr><th>Weeks</th><th>Module</th><th>Live game</th></tr></thead><tbody>
+  ${MODULES.map(m=>{const g=m.agenda.find(a=>a[3]);return `<tr><td>${m.n*2-1}–${m.n*2}</td><td>${m.n}. ${esc(m.title)}</td><td>${esc(g?g[1].replace("Live game: ",""):"")}</td></tr>`}).join("")}
+  </tbody></table></div></section>
+  <section class="block"><h3>For facilitators</h3>
+  <div class="grid">
+    <div class="card"><h4>Cohort size</h4><p>6–10 leaders works best for triads and team games. Mix teams so people hear perspectives from other parts of Ylopo.</p></div>
+    <div class="card"><h4>Remote-ready</h4><p>Run sessions on video with breakout rooms. Keep cameras on for role-plays and rotate time slots across time zones.</p></div>
+    <div class="card"><h4>Keep score</h4><p>Track live-game points on a shared whiteboard across all six sessions and recognize the top scorer and most-improved leader at the final session.</p></div>
+    <div class="card"><h4>Accountability</h4><p>Open each session by asking two or three people how their commitments went. Leaders of leaders should ask about badges and commitments in their own 1-on-1s.</p></div>
+  </div></section>
+  <section class="block"><h3>Resources</h3><div class="res">
+    <a href="${BOOK}" target="_blank" rel="noopener">Book website</a>
+    <a href="${BOOK}videos/" target="_blank" rel="noopener">Author videos</a>
+    <a href="https://www.franklincovey.com/Solutions/6-Critical-Practices.html" target="_blank" rel="noopener">FranklinCovey 6 Critical Practices</a>
+  </div></section>
+  <div class="nextprev"><span></span><button class="btn" data-go="m1">Start Module 1 →</button></div>
+  </div>`;
+}
+
+/* ---------- games ---------- */
+const run={};
+function bestTxt(id,max){const b=state[id];return b!=null?`Best: ${b}/${max}`:`Up to ${max*XP.gamePt} XP`}
+function gameHTML(g){
+  const max=gameMax(g);
+  return `<div class="game" id="game-${g.id}"><div class="ghead"><div><div class="eyebrow">Game</div><h3>${esc(g.title)}</h3><p>${esc(g.intro)}</p></div><span class="best">${bestTxt(g.id,max)}</span></div><div class="gbody" id="gb-${g.id}"></div></div>`;
+}
+function startGame(g){
+  if(g.type==="sort")run[g.id]={order:shuffle(g.items.map((_,i)=>i)),ans:{}};
+  if(g.type==="choice")run[g.id]={i:0,picked:null,score:0};
+  if(g.type==="order")run[g.id]={pool:shuffle(g.steps.map((_,i)=>i)),done:[],miss:0,shake:null};
+  drawGame(g);
+}
+function finish(g,score,max,isQuiz,mid){
+  const key=isQuiz?mid+"-quiz":g.id;
+  if(state[key]==null||score>state[key]){state[key]=score;save()}
+  renderRail(current);
+  const host=document.querySelector(isQuiz?`#game-${mid}-quiz .best`:`#game-${g.id} .best`);
+  if(host)host.textContent=isQuiz?`Best: ${state[key]}/${max}`:bestTxt(g.id,max);
+  const msg=score===max?"Perfect score!":score>=max*0.7?"Nice work.":"Review the key ideas and try again.";
+  return `<div class="result"><div><strong>${score} / ${max}</strong> <span class="note">${msg}</span></div><button class="btn sm ghost" data-replay="${isQuiz?mid+"-quiz":g.id}">Play again</button></div>`;
+}
+function drawGame(g,isQuiz,mid){
+  const id=isQuiz?mid+"-quiz":g.id, r=run[id], el=document.getElementById("gb-"+id); if(!el)return;
+  if(g.type==="sort"){
+    const done=Object.keys(r.ans).length===g.items.length;
+    let score=0;
+    const rows=r.order.map(i=>{const it=g.items[i],a=r.ans[i];
+      if(a==null)return `<div class="sortitem"><span class="stmt">${esc(it[0])}</span><div class="opts">${g.buckets.map((b,bi)=>`<button class="opt" data-sort="${g.id}" data-i="${i}" data-b="${bi}">${esc(b)}</button>`).join("")}</div></div>`;
+      const ok=a===it[1];if(ok)score++;
+      return `<div class="sortitem ${ok?"ok":"no"}"><span class="stmt">${esc(it[0])}</span><span class="verdict">${ok?"✓ ":"✗ "}${esc(g.buckets[it[1]])}</span></div>`}).join("");
+    el.innerHTML=`<div style="display:flex;flex-direction:column;gap:8px">${rows}</div>${done?finish(g,score,g.items.length):""}`;
+  }
+  if(isQuiz||g.type==="choice"){
+    const rounds=isQuiz?g:g.rounds, total=rounds.length;
+    if(r.i>=total){el.innerHTML=finish(g,r.score,total,isQuiz,mid);return}
+    const rd=rounds[r.i],p=r.picked;
+    el.innerHTML=`<div class="progressdots">${rounds.map((_,k)=>`<i class="${k<=r.i?"on":""}"></i>`).join("")}</div>
+    <div class="round"><div class="prompt">${esc(rd[0])}</div>
+    ${rd[1].map((o,k)=>{let c="";if(p!=null){if(k===rd[2])c=" ok";else if(k===p)c=" no"}return `<button class="choice${c}" data-choice="${id}" data-k="${k}" ${p!=null?'aria-disabled="true"':""}>${esc(o)}</button>`}).join("")}
+    ${p!=null?`<p class="explain"><strong>${p===rd[2]?"Right.":"Not quite."}</strong> ${esc(rd[3])}</p><div><button class="btn sm" data-next="${id}">${r.i+1<total?"Next →":"See score"}</button></div>`:""}</div>`;
+  }
+  if(g.type==="order"){
+    const done=r.done.length===g.steps.length, score=Math.max(0,g.steps.length-r.miss);
+    el.innerHTML=`<div class="ordered">${r.done.map(i=>`<div>${esc(g.steps[i])}</div>`).join("")}</div>
+    ${done?finish(g,score,g.steps.length):`<div class="pool">${r.pool.filter(i=>!r.done.includes(i)).map(i=>`<button class="opt${r.shake===i?" shake":""}" data-order="${g.id}" data-i="${i}">${esc(g.steps[i])}</button>`).join("")}</div><p class="note">Mistakes: ${r.miss}</p>`}`;
+    r.shake=null;
+  }
+}
+function findGame(id){for(const m of MODULES){for(const g of m.games)if(g.id===id)return{g,m,quiz:false};if(m.id+"-quiz"===id)return{g:m.quiz,m,quiz:true}}}
+
+/* ---------- module ---------- */
+function moduleView(m){
+  const idx=MODULES.indexOf(m);
+  const chk=(k,t,meta,xp)=>`<li><label><input type="checkbox" id="${k}" data-k="${k}" ${state[k]?"checked":""}><span class="t">${esc(t)}</span><span class="meta">${meta?esc(meta)+" · ":""}+${xp} XP</span></label></li>`;
+  const ratings=m.self.map((s,i)=>{const k=m.id+"-s"+i;return `<div class="q"><span>${esc(s)}</span><div class="scale" role="radiogroup" aria-label="Rate 1 to 5">${[1,2,3,4,5].map(v=>`<input type="radio" name="${k}" id="${k}-${v}" value="${v}" data-r="${k}" ${state[k]==v?"checked":""}><label for="${k}-${v}">${v}</label>`).join("")}</div></div>`}).join("");
+  const prev=idx===0?"overview":MODULES[idx-1].id,next=MODULES[idx+1],{x,max}=modXP(m),earned=badgeEarned(m);
+  return `<div class="panel">
+  <div class="hero"><div class="phase" style="justify-content:space-between"><div class="eyebrow">Module ${m.n} of 6 · Practice ${m.n}</div><span class="chip xpc">${x} / ${max} XP${earned?" · badge earned":""}</span></div><h2 style="margin-top:6px">${esc(m.title)}</h2><p>${esc(m.why)}</p>
+    <div class="shift"><div class="from"><b>From</b>${esc(m.from)}</div><span class="arrow" aria-hidden="true">→</span><div class="to"><b>To</b>${esc(m.to)}</div></div></div>
+
+  ${videoHTML(m)}
+
+  <section class="block"><h3>Key ideas</h3><div class="grid">${m.concepts.map(c=>`<div class="card"><h4>${esc(c[0])}</h4><p>${esc(c[1])}</p></div>`).join("")}</div></section>
+
+  <section class="block"><h3>Tools you'll use</h3><div class="grid">${m.tools.map(t=>`<div class="card tool"><h4>${esc(t[0])}</h4><p>${esc(t[1])}</p>${t[2]?`<${t[0].startsWith("Five")||t[0].includes("six")||t[0].includes("planning")?"ol":"ul"} style="margin-top:8px">${t[2].map(s=>`<li>${esc(s)}</li>`).join("")}</${t[0].startsWith("Five")||t[0].includes("six")||t[0].includes("planning")?"ol":"ul"}>`:""}</div>`).join("")}</div></section>
+
+  <section class="block"><h3>Stories from the book</h3><div class="grid">${m.stories.map(s=>`<div class="card story"><h4>${esc(s[0])}</h4><p>${esc(s[1])}</p></div>`).join("")}</div>
+  <div class="quotes">${m.quotes.map(q=>`<blockquote>“${esc(q[0])}”<cite>${esc(q[1])}</cite></blockquote>`).join("")}</div></section>
+
+  <section class="block"><div class="phase"><span class="chip">Plant · Self-paced prep</span><h3>Prep before the session</h3></div>
+    <ul class="checks">${m.prep.map((p,i)=>chk(m.id+"-p"+i,p[0],p[1],XP.prep)).join("")}</ul>
+    <div class="self">${ratings}<div class="scorebox" id="${m.id}-score"></div></div>
+    <p class="note">Self-check (+${XP.self} XP): 1 = rarely true, 5 = almost always true. Re-rate after you finish the module to see your growth.</p>
+    ${m.games.map(gameHTML).join("")}
+  </section>
+
+  <section class="block"><div class="phase"><span class="chip">Check the soil · Quiz</span><h3>Quiz</h3></div>
+    <div class="game" id="game-${m.id}-quiz"><div class="ghead"><div><div class="eyebrow">Quiz</div><h3>Practice ${m.n} check</h3><p>Three questions. Score at least 2 to qualify for the ${esc(m.badge)} badge.</p></div><span class="best">${state[m.id+"-quiz"]!=null?`Best: ${state[m.id+"-quiz"]}/${m.quiz.length}`:`Up to ${m.quiz.length*XP.quizPt} XP`}</span></div><div class="gbody" id="gb-${m.id}-quiz"></div></div>
+  </section>
+
+  <section class="block"><div class="phase"><span class="chip">Grow together · Live · 60 min</span><h3>Session plan</h3></div>
+    <div class="agenda">${m.agenda.map(a=>`<div class="row${a[3]?" game":""}"><span class="min">${a[0]} min</span><div><strong>${esc(a[1])}</strong><p>${esc(a[2])}</p></div></div>`).join("")}</div>
+    <div class="scenario"><div class="eyebrow">Ylopo scenario</div><h3>${esc(m.scenario[0])}</h3><p>${esc(m.scenario[1])}</p><p><strong>${esc(m.scenario[2])}</strong></p></div>
+    <ul class="checks">${chk(m.id+"-live","I attended the live session and shared my commitment",null,XP.live)}</ul></section>
+
+  <section class="block"><div class="phase"><span class="chip">Bloom · Apply · 2 weeks</span><h3>Put it into practice</h3></div>
+    <ul class="checks">${m.apply.map((a,i)=>chk(m.id+"-a"+i,a,null,XP.apply)).join("")}</ul>
+    <div class="refl"><label for="${m.id}-commit">My commitment for the next two weeks (+${XP.commit} XP)</label><textarea id="${m.id}-commit" data-t="${m.id}-commit" placeholder="I will…">${esc(state[m.id+"-commit"]||"")}</textarea></div>
+    ${m.reflect.map((q,i)=>`<div class="refl"><label for="${m.id}-r${i}">${esc(q)}</label><textarea id="${m.id}-r${i}" data-t="${m.id}-r${i}">${esc(state[m.id+"-r"+i]||"")}</textarea></div>`).join("")}
+    <p class="note">Notes save automatically in this browser only. Copy anything you want to keep or share with your manager.</p></section>
+
+  <section class="block"><h3>Go deeper</h3><div class="res">${m.res.map(r=>`<a href="${r[1]}" target="_blank" rel="noopener">${esc(r[0])}</a>`).join("")}<a href="${BOOK}" target="_blank" rel="noopener">Book website</a></div></section>
+  <div class="nextprev"><button class="btn ghost" data-go="${prev}">← ${idx===0?"Overview":"Module "+MODULES[idx-1].n}</button>${next?`<button class="btn" data-go="${next.id}">Module ${next.n} →</button>`:`<button class="btn" data-go="overview">See your badges</button>`}</div>
+  </div>`;
+}
+function score(m){const el=document.getElementById(m.id+"-score");if(!el)return;const v=m.self.map((_,i)=>+state[m.id+"-s"+i]||0).filter(Boolean);
+  el.textContent=v.length?`Your score: ${v.reduce((a,b)=>a+b,0)} / ${v.length*5}${v.length<m.self.length?" (in progress)":""}`:"Rate each statement to see your score.";}
+
+/* ---------- routing & events ---------- */
+let current="overview";
+function go(id,push){
+  if(id!=="overview"&&!MODULES.find(m=>m.id===id))id="overview";
+  vStopAll();current=id;renderRail(id);
+  const m=MODULES.find(x=>x.id===id);
+  document.getElementById("main").innerHTML=m?moduleView(m):overview();
+  if(m){vInit(m.id);score(m);m.games.forEach(startGame);run[m.id+"-quiz"]={i:0,picked:null,score:0};drawGame(m.quiz,true,m.id)}
+  state._last=id;save();
+  if(push){try{history.replaceState(null,"","#"+id)}catch(e){}window.scrollTo({top:0})}
+}
+document.addEventListener("click",e=>{
+  const t=e.target.closest("button");if(!t)return;
+  if(t.dataset.go){go(t.dataset.go,true);return}
+  if(t.dataset.vplay){vPlay(t.dataset.vplay);return}
+  if(t.dataset.vreplay){const p=P[t.dataset.vreplay];p.i=0;p.ended=false;vPlay(t.dataset.vreplay);return}
+  if(t.dataset.vtoggle){const id=t.dataset.vtoggle,p=P[id];if(p.playing)vPause(id);else vPlay(id);return}
+  if(t.dataset.vseek){const id=t.dataset.vseek,p=P[id],was=p.playing;vPause(id);p.i=+t.dataset.i;p.ended=false;const st=document.getElementById("st-"+id);st.querySelector(".cover").hidden=true;st.querySelector(".wrapup").hidden=true;if(was)vPlay(id);else vRender(id);return}
+  if(t.dataset.vvoice){state._voice=state._voice===false;save();t.textContent=state._voice!==false?"Voice on":"Voice off";t.setAttribute("aria-pressed",state._voice!==false);if(state._voice===false){try{window.speechSynthesis&&window.speechSynthesis.cancel()}catch(e){}}const p=P[t.dataset.vvoice];if(p&&p.playing)vSpeak(t.dataset.vvoice);return}
+  if(t.dataset.sort){const f=findGame(t.dataset.sort);run[f.g.id].ans[+t.dataset.i]=+t.dataset.b;drawGame(f.g);return}
+  if(t.dataset.choice&&t.getAttribute("aria-disabled")!=="true"){const id=t.dataset.choice,f=findGame(id),r=run[id],rounds=f.quiz?f.g:f.g.rounds;r.picked=+t.dataset.k;if(r.picked===rounds[r.i][2])r.score++;drawGame(f.g,f.quiz,f.m.id);return}
+  if(t.dataset.next){const id=t.dataset.next,f=findGame(id),r=run[id];r.i++;r.picked=null;drawGame(f.g,f.quiz,f.m.id);return}
+  if(t.dataset.order){const f=findGame(t.dataset.order),r=run[f.g.id],i=+t.dataset.i;if(i===r.done.length)r.done.push(i);else{r.miss++;r.shake=i}drawGame(f.g);return}
+  if(t.dataset.replay){const id=t.dataset.replay,f=findGame(id);if(f.quiz){run[id]={i:0,picked:null,score:0};drawGame(f.g,true,f.m.id)}else startGame(f.g);return}
+});
+document.addEventListener("change",e=>{const t=e.target;
+  if(t.dataset.k){state[t.dataset.k]=t.checked;save();renderRail(current);refreshChip()}
+  if(t.dataset.r){state[t.dataset.r]=+t.value;save();const m=MODULES.find(x=>x.id===current);if(m)score(m);renderRail(current);refreshChip()}});
+document.addEventListener("input",e=>{const t=e.target;if(t.dataset.t){state[t.dataset.t]=t.value;save()}});
+document.addEventListener("focusout",e=>{if(e.target.dataset&&e.target.dataset.t){renderRail(current);refreshChip()}});
+function refreshChip(){const m=MODULES.find(x=>x.id===current);if(!m)return;const c=document.querySelector(".hero .chip.xpc");if(c){const{x,max}=modXP(m);c.textContent=`${x} / ${max} XP${badgeEarned(m)?" · badge earned":""}`}}
+const h=(location.hash||"").slice(1);
+go(h||state._last||"overview",false);
+</script>
+
+</body>
+</html>
